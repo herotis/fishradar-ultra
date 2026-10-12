@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>โรงเรียนตัวอย่าง - Single Page</title>
+  <meta name="description" content="โครงหน้าเว็บไซต์โรงเรียนแบบหน้าเดียว สวย ทันสมัย ตอบสนองทุกอุปกรณ์" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav" role="navigation" aria-label="เมนูหลัก">
+      <a href="#home" class="logo" aria-label="ไปหน้าแรก">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10l9-7 9 7" />
+            <path d="M9 22V12h6v10" />
+          </svg>
+        </span>
+        <span>โรงเรียนตัวอย่าง</span>
+      </a>
+
+      <nav class="nav-links" aria-label="ลิงก์นำทาง">
+        <a href="#about">เกี่ยวกับ</a>
+        <a href="#programs">หลักสูตร</a>
+        <a href="#admissions">การรับสมัคร</a>
+        <a href="#news">ข่าว / กิจกรรม</a>
+        <a href="#teachers">ครู / บุคลากร</a>
+        <a href="#contact" class="cta">ติดต่อ</a>
+      </nav>
+
+      <button class="menu-btn" aria-label="เปิดเมนู" id="menuBtn">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="mobile-menu container hidden" id="mobileMenu">
+      <a href="#about">เกี่ยวกับ</a>
+      <a href="#programs">หลักสูตร</a>
+      <a href="#admissions">การรับสมัคร</a>
+      <a href="#news">ข่าว / กิจกรรม</a>
+      <a href="#teachers">ครู / บุคลากร</a>
+      <a href="#contact">ติดต่อ</a>
+    </div>
+  </header>
+
+  <!-- Banner Slider -->
+  <section id="banner">
+    <div class="slider">
+      <div class="slide">
+        <img src="https://picsum.photos/1200/400?banner1" alt="แบนเนอร์ 1">
+        <div class="caption">
+          <h2>ยินดีต้อนรับสู่โรงเรียนของเรา</h2>
+          <p>สร้างสรรค์นักเรียนทุกคนให้เต็มศักยภาพ</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://picsum.photos/1200/400?banner2" alt="แบนเนอร์ 2">
+        <div class="caption">
+          <h2>กิจกรรมหลากหลาย</h2>
+          <p>เรียนรู้ผ่านการปฏิบัติจริงและกิจกรรม STEM</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://picsum.photos/1200/400?banner3" alt="แบนเนอร์ 3">
+        <div class="caption">
+          <h2>ทีมครูมืออาชีพ</h2>
+          <p>คอยดูแลนักเรียนอย่างใกล้ชิด</p>
+        </div>
+      </div>
+    </div>
+    <div class="slider-nav">
+      <span class="prev">&#10094;</span>
+      <span class="next">&#10095;</span>
+    </div>
+  </section>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container hero-inner">
+      <div>
+        <span class="badge">โรงเรียนมาตรฐานคุณภาพ</span>
+        <h1>โรงเรียนตัวอย่าง <span class="accent">สร้างคน สร้างอนาคต</span></h1>
+        <p>มุ่งเน้นพัฒนาผู้เรียนให้ครบทั้งความรู้ คุณธรรม และทักษะชีวิต พร้อมก้าวทันเทคโนโลยีในศตวรรษที่ 21</p>
+        <div class="hero-actions">
+          <a href="#admissions" class="hero-cta">สมัครเรียน</a>
+          <a href="#programs" class="hero-cta secondary">ดูหลักสูตร</a>
+        </div>
+        <div class="chips" style="margin-top:14px">
+          <span class="pill">STEM</span>
+          <span class="pill">ภาษาอังกฤษเข้ม</span>
+          <span class="pill">กิจกรรมเด่น</span>
+        </div>
+      </div>
+
+      <div class="hero-graphic">
+        <div class="hero-card">
+          <div class="stat">
+            <span class="prog-icon"></span>
+            <div>
+              <strong>1,250+</strong>
+              <div class="muted">นักเรียนทั้งหมด</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-grid">
+          <div class="hero-card">
+            <div class="stat">
+              <span class="prog-icon"></span>
+              <div>
+                <strong>98%</strong>
+                <div class="muted">เข้าศึกษาต่อ</div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="stat">
+              <span class="prog-icon"></span>
+              <div>
+                <strong>STEM Lab</strong>
+                <div class="muted">ห้องเรียนทันสมัย</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="stat">
+            <span class="prog-icon"></span>
+            <div>
+              <strong>เครือข่ายมหาวิทยาลัย</strong>
+              <div class="muted">ทั้งในและต่างประเทศ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>เกี่ยวกับโรงเรียน</h2>
+          <p>ประวัติ วิสัยทัศน์ พันธกิจ และค่านิยมองค์กร</p>
+        </div>
+        <a class="btn" href="#contact">เยี่ยมชมสถานศึกษา</a>
+      </div>
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>วิสัยทัศน์</h3>
+          <p class="muted">มุ่งสู่โรงเรียนคุณภาพระดับสากล สร้างผู้เรียนให้เป็นพลเมืองโลก</p>
+        </div>
+        <div class="card">
+          <h3>พันธกิจ</h3>
+          <ul>
+            <li>พัฒนาหลักสูตรฐานสมรรถนะ</li>
+            <li>ส่งเสริมคุณธรรมจริยธรรม</li>
+            <li>สร้างเวทีแสดงศักยภาพ</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>จุดเด่น</h3>
+          <p class="muted">ครูผู้เชี่ยวชาญ ห้องเรียนอัจฉริยะ ความร่วมมือภาคอุตสาหกรรม</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs -->
+  <section id="programs">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>หลักสูตรการเรียนรู้</h2>
+          <p>เลือกเส้นทางที่เหมาะกับความถนัดของผู้เรียน</p>
+        </div>
+        <div class="chips">
+          <span class="pill">ประถม</span>
+          <span class="pill">มัธยมศึกษาตอนต้น</span>
+          <span class="pill">มัธยมศึกษาตอนปลาย</span>
+        </div>
+      </div>
+      <div class="grid grid-3">
+        <div class="card">
+          <img src="https://picsum.photos/400/200?lang" alt="ภาษา & สังคม">
+          <h3>ภาษา & สังคม</h3>
+          <p class="muted">พัฒนาการสื่อสารหลายภาษา ทักษะการคิดวิเคราะห์สังคมโลก</p>
+          <a class="btn" href="#contact">สอบถามหลักสูตร</a>
+        </div>
+        <div class="card">
+          <img src="https://picsum.photos/400/200?stem" alt="วิทย์-คณิต (STEM)">
+          <h3>วิทย์ - คณิต (STEM)</h3>
+          <p class="muted">โครงงานทดลองจริง ห้องแล็บมาตรฐาน เครื่องมือทันสมัย</p>
+          <a class="btn" href="#contact">สอบถามหลักสูตร</a>
+        </div>
+        <div class="card">
+          <img src="https://picsum.photos/400/200?art" alt="ศิลปะ & ดนตรี & กีฬา">
+          <h3>ศิลปะ & ดนตรี & กีฬา</h3>
+          <p class="muted">เปิดเวทีแข่งขันและแสดงผลงาน จุดประกายความคิดสร้างสรรค์</p>
+          <a class="btn" href="#contact">สอบถามหลักสูตร</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admissions -->
+  <section id="admissions">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>การรับสมัคร</h2>
+          <p>ขั้นตอนง่าย ๆ สำหรับผู้ปกครองและนักเรียน</p>
+        </div>
+        <a class="btn primary" href="#contact">เริ่มสมัคร</a>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>ไทม์ไลน์การสมัคร</h3>
+          <div class="timeline">
+            <div class="step">
+              <strong>เปิดรับสมัคร</strong>
+              <div class="muted">1 ต.ค.– 30 พ.ย.</div>
+            </div>
+            <div class="step">
+              <strong>สอบคัดเลือก</strong>
+              <div class="muted">กลางเดือน ธ.ค.</div>
+            </div>
+            <div class="step">
+              <strong>ประกาศผล</strong>
+              <div class="muted">ปลายเดือน ธ.ค.</div>
+            </div>
+            <div class="step">
+              <strong>มอบตัว</strong>
+              <div class="muted">ต้นเดือน ม.ค.</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>เอกสารที่ใช้</h3>
+          <ul>
+            <li>สำเนาบัตรประชาชน / ทะเบียนบ้าน</li>
+            <li>ปพ.1 ผลการเรียนย้อนหลัง</li>
+            <li>รูปถ่ายชุดนักเรียน 1 นิ้ว 2 รูป</li>
+          </ul>
+          <p class="muted">* ระบุเพิ่มได้ตามเงื่อนไขของสถานศึกษา</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News & Events -->
+  <section id="news">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>ข่าวสาร & กิจกรรม</h2>
+          <p>อัปเดตความเคลื่อนไหวล่าสุดของโรงเรียน</p>
+        </div>
+        <a class="btn" href="#">ดูทั้งหมด</a>
+      </div>
+      <div class="grid grid-3">
+        <div class="card item">
+          <img src="https://picsum.photos/400/200?news1" alt="ข่าว 1">
+          <time datetime="2025-09-01">01 ก.ย. 2025</time>
+          <div>
+            <h3>เปิดบ้านวิชาการ 2025</h3>
+            <p class="muted">เชิญผู้ปกครองและชุมชนเยี่ยมชมผลงานนักเรียน</p>
+          </div>
+          <span class="tag pill">กิจกรรม</span>
+        </div>
+        <div class="card item">
+          <img src="https://picsum.photos/400/200?news2" alt="ข่าว 2">
+          <time datetime="2025-08-24">24 ส.ค. 2025</time>
+          <div>
+            <h3>ชนะเลิศ แข่งขันหุ่นยนต์</h3>
+            <p class="muted">ทีม STEM คว้าแชมป์ระดับจังหวัด</p>
+          </div>
+          <span class="tag pill">ข่าวดี</span>
+        </div>
+        <div class="card item">
+          <img src="https://picsum.photos/400/200?news3" alt="ข่าว 3">
+          <time datetime="2025-08-10">10 ส.ค. 2025</time>
+          <div>
+            <h3>โครงการจิตอาสา</h3>
+            <p class="muted">ปลูกป่า รักษ์โลก ร่วมกับชุมชน</p>
+          </div>
+          <span class="tag pill">จิตอาสา</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teachers -->
+  <section id="teachers">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>คณะครูและบุคลากร</h2>
+          <p>ทีมงานมืออาชีพ ดูแลนักเรียนอย่างใกล้ชิด</p>
+        </div>
+        <div class="chips">
+          <span class="pill">ครูประจำชั้น</span>
+          <span class="pill">แนะแนว</span>
+          <span class="pill">ผู้บริหาร</span>
+        </div>
+      </div>
+      <div class="grid grid-3">
+        <div class="card teacher">
+          <div class="avatar">
+            <img src="https://picsum.photos/200?teacher1" alt="อาจารย์อภิสิทธิ์">
+          </div>
+          <div>
+            <h3>อาจารย์อภิสิทธิ์ บัณฑิต</h3>
+            <p class="muted">หัวหน้ากลุ่มสาระวิทยาศาสตร์</p>
+          </div>
+        </div>
+        <div class="card teacher">
+          <div class="avatar">
+            <img src="https://picsum.photos/200?teacher2" alt="ครูนันทนา">
+          </div>
+          <div>
+            <h3>ครูนันทนา นาคะ</h3>
+            <p class="muted">แนะแนวและดูแลนักเรียนห้องพิเศษ</p>
+          </div>
+        </div>
+        <div class="card teacher">
+          <div class="avatar">
+            <img src="https://picsum.photos/200?teacher3" alt="ผอ.พงศ์กฤต">
+          </div>
+          <div>
+            <h3>ผอ.พงศ์กฤต</h3>
+            <p class="muted">ผู้บริหารโรงเรียน</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>บรรยากาศโรงเรียน</h2>
+          <p>ภาพกิจกรรมและพื้นที่การเรียนรู้</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <img src="https://picsum.photos/400/300?school1" alt="บรรยากาศ 1" class="gallery-img">
+        <img src="https://picsum.photos/400/300?school2" alt="บรรยากาศ 2" class="gallery-img">
+        <img src="https://picsum.photos/400/300?school3" alt="บรรยากาศ 3" class="gallery-img">
+        <img src="https://picsum.photos/400/300?school4" alt="บรรยากาศ 4" class="gallery-img">
+        <img src="https://picsum.photos/400/300?school5" alt="บรรยากาศ 5" class="gallery-img">
+        <img src="https://picsum.photos/400/300?school6" alt="บรรยากาศ 6" class="gallery-img">
+        <img src="https://picsum.photos/400/300?school7" alt="บรรยากาศ 7" class="gallery-img">
+        <img src="https://picsum.photos/400/300?school8" alt="บรรยากาศ 8" class="gallery-img">
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>ติดต่อโรงเรียน</h2>
+          <p>แผนกวิชาการ เปิดทำการ จันทร์–ศุกร์ 08:30–16:30 น.</p>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>แบบฟอร์มติดต่อ</h3>
+          <form onsubmit="event.preventDefault(); alert('ส่งข้อความเรียบร้อย ขอบคุณค่ะ/ครับ'); this.reset();">
+            <div class="grid grid-2">
+              <input required placeholder="ชื่อ-นามสกุล" aria-label="ชื่อ-นามสกุล" />
+              <input required type="email" placeholder="อีเมล" aria-label="อีเมล" />
+            </div>
+            <input placeholder="เบอร์โทร" aria-label="เบอร์โทร" />
+            <select aria-label="หัวข้อ">
+              <option>สมัครเรียน</option>
+              <option>ขอเอกสาร</option>
+              <option>นัดเยี่ยมชม</option>
+            </select>
+            <textarea rows="4" placeholder="ข้อความ"></textarea>
+            <button class="btn primary" type="submit">ส่งข้อความ</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>ข้อมูลติดต่อ</h3>
+          <p class="muted">123 ถนนการศึกษา เขตเมือง กรุงการเรียน 10100</p>
+          <p>โทร: 02-123-4567 <br /> อีเมล: info@school.ac.th</p>
+          <div class="chips">
+            <a class="btn" href="#">ดูแผนที่</a>
+            <a class="btn" href="#">LINE Official</a>
+            <a class="btn" href="#">Facebook</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="logo" style="color:#fff">
+          <span class="logo-mark" style="background:linear-gradient(145deg, #0ea5e9, #0369a1)"></span>
+          <strong>โรงเรียนตัวอย่าง</strong>
+        </div>
+        <p class="muted" style="margin-top:10px">สถานศึกษาคุณภาพ เพื่ออนาคตของผู้เรียน</p>
+      </div>
+      <div>
+        <h4>ลิงก์ด่วน</h4>
+        <ul>
+          <li><a href="#admissions">ข้อมูลรับสมัคร</a></li>
+          <li><a href="#programs">หลักสูตร</a></li>
+          <li><a href="#news">ข่าว / กิจกรรม</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>ติดต่อ</h4>
+        <ul>
+          <li>โทร 02-123-4567</li>
+          <li>อีเมล info@school.ac.th</li>
+          <li>จ. - ศ. 08:30–16:30 น.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="container copyright">
+      &copy; <span id="year"></span> โรงเรียนตัวอย่าง - สงวนลิขสิทธิ์
+    </div>
+  </footer>
+
+  <a href="#home" class="floating-top" aria-label="กลับขึ้นด้านบน">&#8593;</a>
+
+  <!-- JavaScript -->
+  <script>
+    // ปีปัจจุบัน
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    menuBtn?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu on link click
+    mobileMenu?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+  </script>
+
+</body>
+</html>
