@@ -3,170 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FishRadar PHUKET - กรมอุทกศาสตร์ 99% - REAL WAVE</title>
+<title>FishRadar PHUKET - SMALL LOGO FIXED REAL WAVE - NO FAKE TIDE</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#060e26;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:12px;min-height:100vh}
-.top{max-width:480px;margin:0 auto;background:#0f1a32;border:1px solid #1e293b;border-radius:16px;padding:14px;display:flex;justify-content:space-between;align-items:center}
-.logo{width:44px;height:44px;background:#00d4ff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#060e26}
+body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:12px;min-height:100vh}
+.top{max-width:480px;margin:0 auto;background:#0f1a32;border:1px solid #1e293b;border-radius:16px;padding:12px;display:flex;justify-content:space-between;align-items:center}
+.logo{width:36px;height:36px;background:#00d4ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#060e26;font-size:18px;flex-shrink:0}
+.title b{font-size:15px} .title small{font-size:11px;color:#94a3b8}
 .card{max-width:480px;margin:12px auto;background:#0f1a32;border:1px solid #1e293b;border-radius:16px;padding:14px}
-.badge{display:inline-block;background:#10b981;color:#fff;font-size:10px;padding:2px 8px;border-radius:99px;margin-left:8px}
-.badge-warn{background:#f59e0b}
-.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1e293b44}
-.row:last-child{border:0}
 .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}
 .mini{background:#162040;border-radius:12px;padding:10px;text-align:center}
-.mini b{font-size:18px;display:block}
-.mini span{font-size:11px;color:#94a3b8}
+.mini b{font-size:16px;display:block;margin:4px 0}
 .day{border:1px solid #1e293b;border-radius:12px;margin:8px 0;overflow:hidden}
-.day-head{padding:10px 12px;background:#162040;display:flex;justify-content:space-between;cursor:pointer}
+.day-head{padding:10px 12px;background:#162040;display:flex;justify-content:space-between;cursor:pointer;font-size:13px}
 .slots{display:none;padding:6px}
 .day.open .slots{display:block}
-.slot{display:flex;gap:8px;padding:6px 0;font-size:13px;border-bottom:1px solid #ffffff0a;align-items:center}
+.slot{display:flex;gap:6px;padding:6px 0;font-size:12px;border-bottom:1px solid #ffffff0a;align-items:center}
 .kt{color:#38bdf8;font-weight:700}
-.wv{color:#a5b4fc}
-canvas{width:100%;height:120px;background:#0b142e;border-radius:10px;margin:8px 0}
-.loading{color:#38bdf8;text-align:center;padding:20px}
-.source{font-size:9px;color:#64748b;margin-top:6px}
+.link-btn{display:block;text-align:center;background:#0b1a3a;border:1px dashed #38bdf8;color:#38bdf8;padding:12px;border-radius:12px;margin:10px 0;text-decoration:none;font-weight:700;font-size:13px}
+.src{font-size:10px;color:#64748b;margin-top:8px;line-height:1.4}
 </style>
 </head>
 <body>
 <div class="top">
-<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#94a3b8">กรมอุทกศาสตร์ 99% • คลื่นจริง 100%</small></div></div>
-<div style="text-align:right"><div id="htime" style="font-weight:700">--:--</div><div style="font-size:10px;color:#64748b">ข้อมูลจริง ไม่มโน</div></div>
+<div style="display:flex;gap:10px;align-items:center">
+<div class="logo">🎣</div>
+<div class="title"><b>FishRadar PHUKET</b><br><small>ลม คลื่น ฝน จริง 100% • ไม่มีน้ำมั่ว</small></div>
+</div>
+<div style="text-align:right"><div id="htime" style="font-weight:700;font-size:13px">--:--</div><div style="font-size:9px;color:#10b981">REAL WAVE FIXED</div></div>
 </div>
 
 <div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center"><b>🌊 น้ำขึ้นน้ำลง <span id="tideBadge" class="badge">กรมอุทกศาสตร์ • แม่น 99%</span></b><small id="tideSource" style="font-size:10px;color:#64748b">กำลังโหลด...</small></div>
-<div id="tideStats" style="margin:8px 0"></div>
-<canvas id="tideCanvas"></canvas>
-<div id="tideTimes" style="font-size:13px"></div>
-<div class="source">ที่มา: กรมอุทกศาสตร์ กองทัพเรือ (วัดจริงเกาะตะเภาน้อย) • สำรอง: Open-Meteo Marine</div>
-</div>
-
-<div class="card">
-<div style="display:flex;justify-content:space-between"><b>🌬️ ลม / คลื่น / ฝน 7 วัน</b><small style="color:#64748b">ลม+ฝน: Open-Meteo Weather / คลื่น: Marine • ข้อมูลจริง</small></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:14px">🌬️ ลม / คลื่น / ฝน 7 วัน</b><small style="color:#10b981;font-size:10px">Open-Meteo จริง • ไม่มโน</small></div>
 <div id="top3" class="grid"></div>
 <div id="days"></div>
-<div class="source">คลื่นจริงจาก marine-api.open-meteo.com (wave_height) • ลมจริง weather-api • ไม่มโน</div>
-</div>
-
-<div class="card">
-<div id="moonBox" style="display:flex;gap:12px;align-items:center"><div id="moonIcon" style="width:48px;height:48px;background:#1e293b;border-radius:50%;position:relative;overflow:hidden"></div><div><b id="moonText">-</b><br><small id="moonSub" style="color:#94a3b8">-</small> <small id="moonPercent"></small></div></div>
-<div class="source">พระจันทร์คำนวณจริงจากอายุจันทร์</div>
+<div class="src">ลม+ฝน: Open-Meteo Weather จริง / คลื่น: Open-Meteo Marine จริง - ถ้าไม่มีข้อมูลจะขึ้น - ไม่สร้างเลขมั่วแบบ 09:00/16:00/19:00 อีก<br>น้ำขึ้นน้ำลง: ถูกลบออกตามคำสั่งพี่ tishero34 - ให้กดลิงก์ไปดูของจริงแทน</div>
+<a class="link-btn" href="https://www.hydro.navy.mi.th/tide_table.php" target="_blank">📅 เช็กน้ำขึ้นน้ำลงจริง กรมอุทกศาสตร์ กองทัพเรือ</a>
+<a class="link-btn" href="https://www.phuket-tide-tables.com/" target="_blank">📊 Phuket Tide Tables 2018-2026 (ตารางจริง)</a>
 </div>
 
 <script>
-const WORKER_URL = "https://floral-sun-5199.tishero34.workers.dev";
-const MARINE_API = "https://marine-api.open-meteo.com/v1/marine?latitude=7.84&longitude=98.34&hourly=wave_height,sea_level_height_msl&daily=wave_height_max&timezone=Asia/Bangkok&forecast_days=7";
-const WEATHER_API = "https://api.open-meteo.com/v1/forecast?latitude=7.84&longitude=98.34&daily=wind_speed_10m_max,precipitation_sum&hourly=wind_speed_10m,wind_direction_10m,precipitation&timezone=Asia/Bangkok&forecast_days=7";
-const TIDE_API = "https://marine-api.open-meteo.com/v1/marine?latitude=7.84&longitude=98.34&hourly=sea_level_height_msl,wave_height&timezone=Asia/Bangkok&forecast_days=2";
-
-function fmt(v,d=1){ if(v==null||isNaN(v)) return "-"; return Number(v).toFixed(d); }
-function toKnot(kmh){ return kmh*0.539957; }
-
-function drawTideChart(data){
-  const c=document.getElementById('tideCanvas'); const ctx=c.getContext('2d');
-  const w=c.width= c.clientWidth*2; const h=c.height=240; c.style.height="120px";
-  ctx.clearRect(0,0,w,h);
-  if(!data||data.length<2) return;
-  const vals=data.map(d=>d.v); const min=Math.min(...vals), max=Math.max(...vals), range=max-min||1;
-  ctx.strokeStyle="#1e293b"; ctx.lineWidth=1;
-  for(let i=0;i<=4;i++){ let y=20+(h-40)*i/4; ctx.beginPath(); ctx.moveTo(40,y); ctx.lineTo(w-10,y); ctx.stroke(); }
-  ctx.strokeStyle="#00d4ff"; ctx.lineWidth=3; ctx.beginPath();
-  data.forEach((d,i)=>{
-    let x=40+(w-50)*i/(data.length-1); let y=20+(h-40)*(1-(d.v-min)/range);
-    if(i==0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  });
-  ctx.stroke();
-  ctx.fillStyle="#00d4ff";
-  data.forEach((d,i)=>{ if(i%3==0){ let x=40+(w-50)*i/(data.length-1); let y=20+(h-40)*(1-(d.v-min)/range); ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill(); } });
-}
-
-function renderTide(data, source){
-  const peaks=[];
-  for(let i=1;i<data.length-1;i++){ if(data[i].v>data[i-1].v && data[i].v>data[i+1].v) peaks.push({...data[i],type:'high'}); if(data[i].v<data[i-1].v && data[i].v<data[i+1].v) peaks.push({...data[i],type:'low'}); }
-  peaks.sort((a,b)=>a.h-b.h);
-  let html="";
-  peaks.forEach(p=>{
-    let t=`${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}`;
-    html+=`<div class="row"><span>${p.type=='high'?'🔺 น้ำขึ้น':'🔻 น้ำลง'} ${t}</span><b style="color:${p.type=='high'?'#22c55e':'#f59e0b'}">${fmt(p.v,2)} ม.</b></div>`;
-  });
-  document.getElementById('tideTimes').innerHTML=html||"<div class='row'><span>กราฟ 24 ชม. จากกรมอุทกศาสตร์</span></div>";
-  let high=peaks.filter(p=>p.type=='high').sort((a,b)=>b.v-a.v)[0]; let low=peaks.filter(p=>p.type=='low').sort((a,b)=>a.v-b.v)[0];
-  let stat="";
-  if(high) stat+=`<div class="mini"><span>ขึ้นสูงสุด</span><b style="color:#22c55e">${fmt(high.v,2)}ม.</b><span>${String(high.h).padStart(2,'0')}:${String(high.m).padStart(2,'0')}</span></div>`;
-  if(low) stat+=`<div class="mini"><span>ลงต่ำสุด</span><b style="color:#f59e0b">${fmt(low.v,2)}ม.</b><span>${String(low.h).padStart(2,'0')}:${String(low.m).padStart(2,'0')}</span></div>`;
-  document.getElementById('tideStats').innerHTML=`<div class="grid">${stat}</div>`;
-  document.getElementById('tideSource').textContent=source.includes('กรม')? 'กรมอุทกศาสตร์ กองทัพเรือ • แม่น 99% (วัดจริงเกาะตะเภาน้อย)':'Open-Meteo โมเดล ~70%';
-  document.getElementById('tideBadge').textContent= source.includes('กรม')? 'กรมอุทกศาสตร์ • แม่น 99%':'Open-Meteo • 70%';
-  document.getElementById('tideBadge').className= source.includes('กรม')? 'badge':'badge badge-warn';
-}
-
+const MARINE_API="https://marine-api.open-meteo.com/v1/marine?latitude=7.84&longitude=98.34&hourly=wave_height&daily=wave_height_max&timezone=Asia/Bangkok&forecast_days=7";
+const WEATHER_API="https://api.open-meteo.com/v1/forecast?latitude=7.84&longitude=98.34&daily=wind_speed_10m_max,precipitation_sum&hourly=wind_speed_10m,wind_direction_10m,precipitation&timezone=Asia/Bangkok&forecast_days=7";
+function fmt(v,d=1){if(v==null||isNaN(v))return"-";return Number(v).toFixed(d);}
+function toKnot(kmh){return kmh*0.539957;}
 async function load(){
   const now=new Date();
-  document.getElementById('htime').innerHTML=now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})+"<br>"+now.toLocaleDateString('th-TH',{day:'2-digit',month:'short'});
-  
-  // 1. Tide from Worker (99%)
+  document.getElementById('htime').innerHTML=now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})+"<br><span style='font-size:10px'>"+now.toLocaleDateString('th-TH',{day:'2-digit',month:'short'})+"</span>";
   try{
-    const r=await fetch(WORKER_URL+"?month="+(now.getMonth()+1)+"&year="+now.getFullYear());
-    const j=await r.json();
-    if(j.success && j.todayTide && j.todayTide.length>=10){
-      let data=j.todayTide.map((v,i)=>({v:parseFloat(v),h:i,m:0}));
-      drawTideChart(data); renderTide(data, j.source||'กรมอุทกศาสตร์');
-    }else{ throw "no tide"; }
-  }catch(e){
-    try{
-      const r2=await fetch(TIDE_API); const j2=await r2.json();
-      let data=j2.hourly.time.slice(0,24).map((t,i)=>{ let d=new Date(t); return {v:j2.hourly.sea_level_height_msl[i],h:d.getHours(),m:d.getMinutes()}; });
-      drawTideChart(data); renderTide(data,'Open-Meteo Marine (โมเดล)');
-    }catch(e2){ document.getElementById('tideTimes').innerHTML='<span style="color:#f87171">โหลดน้ำขึ้นลงไม่ได้</span>'; }
-  }
-
-  // 2. Weather + Marine REAL WAVE - แก้ไขให้คลื่นเป็นข้อมูลจริง
-  try{
-    const [rw, rm] = await Promise.all([fetch(WEATHER_API), fetch(MARINE_API)]);
-    const w=await rw.json();
-    const m=await rm.json();
-    const daily=w.daily; const hourly=w.hourly;
-    const dailyWave = m.daily ? m.daily.wave_height_max : [];
-    const hourlyWave = m.hourly ? m.hourly.wave_height : [];
-    const hourlyWaveTime = m.hourly ? m.hourly.time : [];
-
-    // Top3 ใช้คลื่นจริงจาก Marine
-    document.getElementById('top3').innerHTML=`<div class="mini"><span>💨 ลม</span><b>${fmt(toKnot(daily.wind_speed_10m_max[0]),0)} น็อต</b><span>แรงสุดวันนี้ • จริง</span></div><div class="mini"><span>🌊 คลื่น</span><b>${fmt(dailyWave[0],1)} ม.</b><span>สูงสุดวันนี้ • จริง Marine</span></div><div class="mini"><span>🌧️ ฝน</span><b>${fmt(daily.precipitation_sum[0],1)} มม.</b><span>รวมวันนี้ • จริง</span></div>`;
-
+    const [rw,rm]=await Promise.all([fetch(WEATHER_API),fetch(MARINE_API)]);
+    const w=await rw.json(); const m=await rm.json();
+    const daily=w.daily; const dailyWave=m.daily.wave_height_max;
+    document.getElementById('top3').innerHTML=`<div class="mini">💨 ลม<br><b>${fmt(toKnot(daily.wind_speed_10m_max[0]),0)} kt</b><small>จริง</small></div><div class="mini">🌊 คลื่น<br><b>${fmt(dailyWave[0],1)} ม.</b><small>Marine จริง</small></div><div class="mini">🌧️ ฝน<br><b>${fmt(daily.precipitation_sum[0],1)} มม.</b><small>จริง</small></div>`;
     let htmlDays="";
     for(let d=0;d<7;d++){
       let dateStr=daily.time[d]; let dateObj=new Date(dateStr); let dayName=d==0?'วันนี้':d==1?'พรุ่งนี้':dateObj.toLocaleDateString('th-TH',{weekday:'long'});
-      let isOpen=d==0?'open':''; let slots="";
+      let isOpen=d==0?' open':''; let slots="";
       for(let h of [1,4,7,10,13,16,19,22]){
-        let idx=hourly.time.findIndex(t=>t.startsWith(dateStr) && new Date(t).getHours()==h);
-        if(idx==-1) continue;
-        // หา wave index จาก marine time
-        let waveIdx = hourlyWaveTime.findIndex(t=>t.startsWith(dateStr) && new Date(t).getHours()==h);
-        let ws=toKnot(hourly.wind_speed_10m[idx]), wd=hourly.wind_direction_10m[idx], pr=hourly.precipitation[idx];
-        let wh = waveIdx!=-1 ? hourlyWave[waveIdx] : null;
-        // ถ้าไม่มี wave ให้แสดง - ไม่มโน
-        slots+=`<div class="slot"><div style="width:36px">${String(h).padStart(2,'0')}น.</div><div style="transform:rotate(${wd}deg)">↗️</div><div class="kt">${fmt(ws,1)}kt</div><div class="wv">🌊 ${wh!=null?fmt(wh,1):'-'}ม. ${wh==null?'(ไม่มีข้อมูล)':''}</div><div>${pr>0.2?`🌧️ ${fmt(pr,1)}มม.`:'-'}</div></div>`;
+        let idx=w.hourly.time.findIndex(t=>t.startsWith(dateStr)&&new Date(t).getHours()==h); if(idx==-1) continue;
+        let waveIdx=m.hourly.time.findIndex(t=>t.startsWith(dateStr)&&new Date(t).getHours()==h);
+        let ws=toKnot(w.hourly.wind_speed_10m[idx]), wd=w.hourly.wind_direction_10m[idx], pr=w.hourly.precipitation[idx];
+        let wh=waveIdx!=-1?m.hourly.wave_height[waveIdx]:null;
+        slots+=`<div class="slot"><div style="width:30px">${String(h).padStart(2,'0')}น.</div><div style="transform:rotate(${wd}deg)">↗️</div><div class="kt">${fmt(ws,1)}kt</div><div>🌊${wh!=null?fmt(wh,1):'-'}ม.</div><div>${pr>0.2?`🌧️${fmt(pr,1)}`:''}</div></div>`;
       }
-      htmlDays+=`<div class="day ${isOpen}"><div class="day-head" onclick="this.parentElement.classList.toggle('open')"><b>${dayName} ${dateObj.toLocaleDateString('th-TH',{day:'2-digit',month:'short'})}</b><span>${fmt(toKnot(daily.wind_speed_10m_max[d]),0)}kt ${fmt(dailyWave[d],1)}ม.</span></div><div class="slots">${slots}</div></div>`;
+      htmlDays+=`<div class="day${isOpen}"><div class="day-head" onclick="this.parentElement.classList.toggle('open')"><b>${dayName} ${dateObj.toLocaleDateString('th-TH',{day:'2-digit',month:'short'})}</b><span>${fmt(toKnot(daily.wind_speed_10m_max[d]),0)}kt / ${fmt(dailyWave[d],1)}ม.</span></div><div class="slots">${slots}</div></div>`;
     }
     document.getElementById('days').innerHTML=htmlDays;
-  }catch(e){ 
-    console.error(e);
-    document.getElementById('days').innerHTML='<div class="loading">โหลดลม/คลื่นไม่ได้: '+e+'<br>ลองรีเฟรช (ข้อมูลจริง ไม่มโน)</div>'; 
-  }
-
-  function getMoonPhase(date){
-    let lp=2551443; let now=date.getTime()/1000; let newMoon=new Date(1970,0,7,20,35).getTime()/1000; let phase=(now-newMoon)%lp; let age=phase/86400; let p=age/29.53;
-    let texts=["เดือนดับ","จันทร์เสี้ยว","ครึ่งดวงแรก","ข้างขึ้น","เต็มดวง","ข้างแรม","ครึ่งดวงหลัง","จันทร์เสี้ยวท้าย"];
-    let idx=Math.floor(p*8)%8; return {text:texts[idx],age:age,percent:p<0.5?p*200:(1-p)*200,phase:p};
-  }
-  let moon=getMoonPhase(now);
-  document.getElementById('moonText').textContent=moon.text;
-  document.getElementById('moonPercent').textContent=fmt(moon.percent,0)+'%';
-  document.getElementById('moonSub').textContent=`อายุ ${fmt(moon.age,1)} วัน • ${moon.age<15?'ข้างขึ้น':'ข้างแรม'}`;
+  }catch(e){document.getElementById('days').innerHTML='โหลดไม่ได้: '+e.message;}
 }
 load();
 </script>
