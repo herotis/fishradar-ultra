@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FishRadar PHUKET - GRAPH WITH TIME LABELS</title>
+<title>FishRadar PHUKET - ORIGINAL DETAILED GRAPH</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:12px}
@@ -13,58 +13,31 @@ body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:1
 .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}
 .mini{background:#162040;border-radius:12px;padding:10px;text-align:center}
 .mini b{font-size:16px;display:block}
-.tide-box{background:#0b1a3a;border:1px solid #10b981;border-radius:12px;padding:10px;margin:10px 0}
-canvas{width:100%;height:220px;display:block;border-radius:8px;background:#060e26}
+.tide-box{background:#0b1a3a;border:1px solid #10b981;border-radius:12px;padding:12px;margin:10px 0}
+canvas{width:100%;height:200px;display:block;border-radius:8px;background:#060e26}
 .day{border:1px solid #1e293b;border-radius:12px;margin:8px 0;overflow:hidden}
 .day-head{padding:14px;background:#162040;display:flex;justify-content:space-between;cursor:pointer}
-.day.open.slots{display:block}
+.day.open .slots{display:block}
 .slots{display:none;padding:8px;background:#0f1a32}
 .slot{display:flex;gap:8px;padding:7px 0;font-size:12px;border-bottom:1px solid #ffffff14}
 .kt{color:#38bdf8;font-weight:700}
+.tide-row{display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px solid #ffffff14;align-items:center}
 .btn{display:block;text-align:center;background:#0b1a3a;border:1px solid #10b981;color:#10b981;padding:10px;border-radius:10px;margin:8px 0;text-decoration:none;font-weight:700;font-size:12px}
-.tide-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid #ffffff14}
 </style>
 </head>
 <body>
 <div class="top">
-<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#10b981">กราฟมีเวลาบอกแล้ว</small></div></div>
+<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#10b981">กราฟแบบดั้งเดิมมีเวลาบอกครบ</small></div></div>
 <div id="htime"></div>
 </div>
 
 <div class="card">
-<b>🌊 กราฟน้ำ 13 ต.ค. 2026 - khaophuket.com จริง (มีเวลาบอกในกราฟ)</b>
+<b>🌊 กราฟน้ำขึ้นน้ำลง 13 ต.ค. 2026 - แปลงจากตารางจริง</b>
 <div class="tide-box"><canvas id="tideCanvas"></canvas></div>
 <div id="tideInfo"></div>
-<a class="btn" href="https://www.khaophuket.com/phuket-tide-table.php" target="_blank">✅ ตารางจริง khaophuket.com</a>
+<a class="btn" href="https://www.khaophuket.com/phuket-tide-table.php" target="_blank">✅ ดูตารางจริง khaophuket.com</a>
 </div>
 
 <div class="card">
 <b>🌬️ ลม / คลื่น / ฝน 7 วัน - จิ้มที่วันที่เพื่อกาง</b>
-<div id="top3" class="grid"></div>
-<div id="days"></div>
-</div>
-
-<script>
-function toggleDay(el){ el.parentElement.classList.toggle('open'); }
-const TIDE=[3.3,3.0,2.5,1.8,1.3,0.9,0.9,1.2,1.6,2.2,2.7,3.0,3.0,2.8,2.4,1.9,1.4,1.0,1.0,1.2,1.7,2.3,2.8,3.2];
-
-function drawTideGraph(){
-  const canvas=document.getElementById('tideCanvas');
-  const dpr=window.devicePixelRatio||1;
-  const rect=canvas.getBoundingClientRect();
-  canvas.width=rect.width*dpr; canvas.height=220*dpr;
-  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr);
-  const W=rect.width, H=220, padL=42, padR=12, padT=30, padB=35;
-  const min=Math.min(...TIDE)-0.5, max=Math.max(...TIDE)+0.5, range=max-min;
-  ctx.clearRect(0,0,W,H);
-
-  // grid
-  ctx.strokeStyle='#162040'; ctx.lineWidth=1;
-  for(let i=0;i<=4;i++){let y=padT+i*(H-padT-padB)/4; ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke(); ctx.fillStyle='#64748b'; ctx.font='11px sans-serif'; ctx.fillText((max-i*range/4).toFixed(1)+'ม.',2,y+3);}
-
-  const points=TIDE.map((v,i)=>({x:padL+i*(W-padL-padR)/23, y:padT+(max-v)/range*(H-padT-padB), v, h:i}));
-
-  // line smooth
-  ctx.beginPath(); ctx.strokeStyle='#10b981'; ctx.lineWidth=3; ctx.lineJoin='round'; ctx.lineCap='round';
-  ctx.moveTo(points[0].x,points[0].y);
-  for(let i=1;i<points.length;i++){let
+<div id="top3" class="grid"></
