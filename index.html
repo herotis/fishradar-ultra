@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FishRadar PHUKET - CLICK FIXED + REAL TIDE GRAPH</title>
+<title>FishRadar PHUKET - FINAL CLICK FIXED</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:12px}
@@ -14,37 +14,78 @@ body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:1
 .mini{background:#162040;border-radius:12px;padding:10px;text-align:center}
 .mini b{font-size:16px;display:block}
 .tide-graph{background:#0b1a3a;border:1px solid #10b981;border-radius:12px;padding:12px;margin:10px 0}
-canvas{width:100%;height:170px;display:block;background:#060e26;border-radius:8px}
-.tide-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid #ffffff14}
-.btn{display:block;text-align:center;background:#0b1a3a;border:1px solid #10b981;color:#10b981;padding:10px;border-radius:10px;margin:8px 0;text-decoration:none;font-weight:700;font-size:12px}
+canvas{width:100%;height:160px;display:block;background:#060e26;border-radius:8px}
 .day{border:1px solid #1e293b;border-radius:12px;margin:8px 0;overflow:hidden}
-.day-head{padding:14px;background:#162040;display:flex;justify-content:space-between;cursor:pointer;user-select:none}
+.day-head{padding:14px;background:#162040;display:flex;justify-content:space-between;cursor:pointer}
 .day-head:active{background:#1e40af}
 .slots{display:none;padding:8px;background:#0f1a32}
-.day.open > .slots{display:block}
-.slot{display:flex;gap:8px;padding:7px 0;font-size:12px;border-bottom:1px solid #ffffff0a}
+.day.open .slots{display:block}
+.slot{display:flex;gap:8px;padding:7px 0;font-size:12px;border-bottom:1px solid #ffffff14}
 .kt{color:#38bdf8;font-weight:700}
-.src{font-size:10px;color:#64748b;margin-top:6px}
+.btn{display:block;text-align:center;background:#0b1a3a;border:1px solid #10b981;color:#10b981;padding:10px;border-radius:10px;margin:8px 0;text-decoration:none;font-weight:700;font-size:12px}
+.src{font-size:10px;color:#64748b}
 </style>
 </head>
 <body>
 <div class="top">
-<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#10b981">กดที่วันที่ได้แล้ว + กราฟน้ำจริง</small></div></div>
-<div id="htime" style="font-weight:700;font-size:12px"></div>
+<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#10b981">กดวันที่ได้แล้ว 100%</small></div></div>
+<div id="htime"></div>
 </div>
 
 <div class="card">
-<b>🌊 กราฟน้ำขึ้นน้ำลง 13 ต.ค. 2026 - khaophuket.com</b>
-<div class="tide-graph"><canvas id="tideCanvas" width="800" height="340"></canvas></div>
+<b>🌊 กราฟน้ำ 13 ต.ค. 2026 - khaophuket.com จริง</b>
+<div class="tide-graph"><canvas id="tideCanvas" width="800" height="320"></canvas></div>
 <div id="tideInfo"></div>
-<a class="btn" href="https://www.khaophuket.com/phuket-tide-table.php" target="_blank">✅ ดูตารางเต็มที่ khaophuket.com</a>
+<a class="btn" href="https://www.khaophuket.com/phuket-tide-table.php" target="_blank">✅ ตารางจริง khaophuket.com</a>
 </div>
 
 <div class="card">
-<b>🌬️ ลม / คลื่น / ฝน 7 วัน - จิ้มที่แถบวันที่เพื่อขยาย</b>
+<b>🌬️ ลม / คลื่น / ฝน 7 วัน - จิ้มที่แถบเพื่อกาง</b>
 <div id="top3" class="grid"></div>
 <div id="days"></div>
 </div>
 
 <script>
-const TIDE=[3.3,3.0,2.5,1.8,1.3,0.9,0.9,1.2,1.6,2.2,2.7,3.0,
+// ฟังก์ชันกดได้ชัวร์ที่สุด - ไม่ต้องรอโหลด
+function toggleDay(el){
+  const day = el.parentElement;
+  day.classList.toggle('open');
+}
+
+const TIDE=[3.3,3.0,2.5,1.8,1.3,0.9,0.9,1.2,1.6,2.2,2.7,3.0,3.0,2.8,2.4,1.9,1.4,1.0,1.0,1.2,1.7,2.3,2.8,3.2];
+(function draw(){
+  const c=document.getElementById('tideCanvas'); const ctx=c.getContext('2d'); const W=c.width,H=c.height,pad=40;
+  ctx.clearRect(0,0,W,H); const min=Math.min(...TIDE)-0.3,max=Math.max(...TIDE)+0.3,range=max-min;
+  ctx.strokeStyle='#1e293b'; for(let i=0;i<=4;i++){let y=pad+i*(H-pad*2)/4; ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-20,y); ctx.stroke();}
+  ctx.beginPath(); ctx.strokeStyle='#10b981'; ctx.lineWidth=4; TIDE.forEach((v,i)=>{const x=pad+i*(W-pad-20)/23; const y=pad+(max-v)/range*(H-pad*2); if(i==0)ctx.moveTo(x,y); else ctx.lineTo(x,y);}); ctx.stroke();
+})();
+document.getElementById('tideInfo').innerHTML=`<div style="display:flex;justify-content:space-between;font-size:12px"><span>11น. ขึ้น ${TIDE[11]}ม. (11:36=3.05ม.)</span><span>17น. ลง ${TIDE[17]}ม. (17:41=0.97ม.)</span></div>`;
+document.getElementById('htime').innerHTML=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+
+const MARINE="https://marine-api.open-meteo.com/v1/marine?latitude=7.84&longitude=98.34&hourly=wave_height&daily=wave_height_max&timezone=Asia/Bangkok&forecast_days=7";
+const WEATHER="https://api.open-meteo.com/v1/forecast?latitude=7.84&longitude=98.34&daily=wind_speed_10m_max,precipitation_sum&hourly=wind_speed_10m,wind_direction_10m,precipitation&timezone=Asia/Bangkok&forecast_days=7";
+function fmt(v,d=1){if(v==null||isNaN(v))return"-";return Number(v).toFixed(d);} function toKnot(k){return k*0.539957;}
+
+fetch(WEATHER).then(r=>r.json()).then(w=>{
+  fetch(MARINE).then(r=>r.json()).then(m=>{
+    const daily=w.daily; const dw=m.daily.wave_height_max;
+    document.getElementById('top3').innerHTML=`<div class="mini">💨<b>${fmt(toKnot(daily.wind_speed_10m_max[0]),0)}kt</b></div><div class="mini">🌊<b>${fmt(dw[0],1)}ม.</b></div><div class="mini">🌧️<b>${fmt(daily.precipitation_sum[0],1)}มม.</b></div>`;
+    let html=""; for(let d=0;d<7;d++){
+      let ds=daily.time[d];
+      let label=d==0?'วันนี้ 13 ต.ค.':d==1?'พรุ่งนี้ 14 ต.ค.':d==2?'วันพุธ 15 ต.ค.':d==3?'วันพฤหัสบดี 16 ต.ค.':d==4?'วันศุกร์ 17 ต.ค.':d==5?'วันเสาร์ 18 ต.ค.':'วันอาทิตย์ 19 ต.ค.';
+      let open=d==0?' open':''; let slots="";
+      for(let hh of [1,4,7,10,13,16,19,22]){
+        let idx=w.hourly.time.findIndex(t=>t.startsWith(ds)&&new Date(t).getHours()==hh); if(idx==-1)continue;
+        let wi=m.hourly.time.findIndex(t=>t.startsWith(ds)&&new Date(t).getHours()==hh);
+        let ws=toKnot(w.hourly.wind_speed_10m[idx]), pr=w.hourly.precipitation[idx], wh=wi!=-1?m.hourly.wave_height[wi]:null;
+        slots+=`<div class="slot"><div style="width:32px">${String(hh).padStart(2,'0')}น.</div><div class="kt">${fmt(ws,1)}kt</div><div>🌊${wh!=null?fmt(wh,1):'-'}ม.</div><div>${pr>0.2?`🌧️${fmt(pr,1)}`:''}</div></div>`;
+      }
+      // ใช้ onclick แบบตรงๆ ที่ชัวร์ที่สุด
+      html+=`<div class="day${open}"><div class="day-head" onclick="toggleDay(this)"><b>${label}</b><span>${fmt(toKnot(daily.wind_speed_10m_max[d]),0)}kt ▼</span></div><div class="slots">${slots}</div></div>`;
+    }
+    document.getElementById('days').innerHTML=html;
+  });
+});
+</script>
+</body>
+</html>
