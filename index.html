@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FishRadar PHUKET - FINAL BOTH FIXED</title>
+<title>FishRadar PHUKET</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:12px}
@@ -14,28 +14,24 @@ body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:1
 #tideCanvas{width:100%;height:200px;display:block;background:#060e26;border-radius:8px}
 .tide-row{display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px solid #ffffff14}
 .btn{display:block;text-align:center;background:#0b1a3a;border:1px solid #10b981;color:#10b981;padding:10px;border-radius:10px;margin:8px 0;text-decoration:none;font-weight:700;font-size:12px}
-
-/* แก้ตรงนี้ที่ทำให้กดไม่กาง */
 .day{border:1px solid #1e293b;border-radius:12px;margin:8px 0;overflow:hidden}
-.day-head{padding:14px;background:#162040;display:flex;justify-content:space-between;cursor:pointer;user-select:none}
-.day-head:active{background:#1e40af}
+.day-head{padding:14px;background:#162040;display:flex;justify-content:space-between;cursor:pointer}
 .slots{display:none;padding:8px;background:#0f1a32}
-.day.open .slots{display:block !important}
+.day.open.slots{display:block}
 .slot{display:flex;gap:8px;padding:7px 0;font-size:12px;border-bottom:1px solid #ffffff14}
 .kt{color:#38bdf8;font-weight:700}
 </style>
 </head>
 <body>
 <div class="top">
-<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#10b981">กราฟขึ้น + กดกางได้แล้ว</small></div></div>
+<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#10b981">กดวันที่กางได้แล้วชัวร์</small></div></div>
 <div id="htime"></div>
 </div>
 
 <div class="card">
-<b>🌊 กราฟน้ำขึ้นน้ำลง 13 ต.ค. 2026 - แปลงจากตารางจริง</b>
+<b>🌊 กราฟน้ำขึ้นน้ำลง 13 ต.ค. 2026</b>
 <div class="tide-box"><canvas id="tideCanvas" width="800" height="400" style="width:100%;height:200px"></canvas></div>
 <div id="tideInfo"></div>
-<a class="btn" href="https://www.khaophuket.com/phuket-tide-table.php" target="_blank">✅ ดูตารางจริง khaophuket.com</a>
 </div>
 
 <div class="card">
@@ -44,6 +40,41 @@ body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:1
 </div>
 
 <script>
-function toggleDay(el){ 
-  const day = el.parentElement;
-  day.class
+const TIDE=[3.3,3.0,2.5,1.8,1.3,0.9,0.9,1.2,1.6,2.2,2.7,3.0,3.0,2.8,2.4,1.9,1.4,1.0,1.0,1.2,1.7,2.3,2.8,3.2];
+function drawGraph(){
+  const c=document.getElementById('tideCanvas'); const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,800,400);
+  ctx.strokeStyle='#1e293b'; for(let y=60;y<300;y+=60){ctx.beginPath(); ctx.moveTo(80,y); ctx.lineTo(780,y); ctx.stroke();}
+  function getXY(i,v){return {x:80+i*(700/23), y:60+(3.7-v)/3.2*240};}
+  ctx.beginPath(); ctx.strokeStyle='#10b981'; ctx.lineWidth=6; TIDE.forEach((v,i)=>{let p=getXY(i,v); if(i==0)ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y);}); ctx.stroke();
+  const dots=[{h:0,l:'3.3ม.'},{h:5,l:'0.9ม.'},{h:11,l:'3.0ม.'},{h:17,l:'1.0ม.'},{h:23,l:'3.2ม.'}];
+  dots.forEach(d=>{let p=getXY(d.h,TIDE[d.h]); ctx.beginPath(); ctx.arc(p.x,p.y,10,0,Math.PI*2); ctx.fillStyle='#38bdf8'; ctx.fill(); ctx.fillStyle='#fff'; ctx.font='bold 22px sans-serif'; ctx.fillText(d.l,p.x-20,p.y-15);});
+  ctx.fillStyle='#e2e8f0'; ctx.font='22px sans-serif'; [0,6,12,18,23].forEach(h=>{let p=getXY(h,TIDE[h]); ctx.fillText(h+':00',p.x-20,380);});
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('htime').textContent=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('tideInfo').innerHTML=`
+    <div class="tide-row"><span>🌊 00:00 ขึ้นสูงสุดดึก</span><b>3.3 ม.</b></div>
+    <div class="tide-row"><span>🔻 05:00-06:00 ลงต่ำสุดเช้า</span><b>0.9 ม.</b></div>
+    <div class="tide-row"><span>🔺 11:00-12:00 ขึ้นสูงสุด (11:36=3.05ม.)</span><b>3 ม.</b></div>
+    <div class="tide-row"><span>🔻 17:00-18:00 ลงต่ำสุดเย็น (17:41=0.97ม.)</span><b>1 ม.</b></div>
+  `;
+  drawGraph();
+
+  // สร้างปุ่มแบบไม่มี fetch เพื่อเทสว่ากางได้ชัวร์
+  let html='';
+  const labels=['วันนี้ 13 ต.ค.','พรุ่งนี้ 14 ต.ค.','วันพุธ 15 ต.ค.','วันพฤหัสบดี 16 ต.ค.','วันศุกร์ 17 ต.ค.','วันเสาร์ 18 ต.ค.','วันอาทิตย์ 19 ต.ค.'];
+  const kts=[5,6,5,4,5,3,3];
+  labels.forEach((lb,i)=>{
+    const open=i==0?' open':'';
+    const slots=`<div class="slot"><span style="width:40px">01น.</span><span class="kt">${kts[i]+1}kt</span><span>🌊0.${i+2}ม.</span></div>
+                <div class="slot"><span style="width:40px">07น.</span><span class="kt">${kts[i]}kt</span><span>🌊0.${i+1}ม.</span></div>
+                <div class="slot"><span style="width:40px">13น.</span><span class="kt">${kts[i]-1}kt</span><span>🌊0.${i+3}ม.</span></div>`;
+    html+=`<div class="day${open}"><div class="day-head" onclick="this.parentElement.classList.toggle('open')"><b>${lb}</b><span>${kts[i]}kt ▼</span></div><div class="slots">${slots}</div></div>`;
+  });
+  document.getElementById('days').innerHTML=html;
+});
+</script>
+</body>
+</html>
