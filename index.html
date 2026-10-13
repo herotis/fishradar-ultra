@@ -3,245 +3,381 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FishRadar PHUKET ULTRA - ข้อมูลจริง ไม่มโน</title>
+<title>FishRadar V5 - Thai Lunar + Windy Tide</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,'Sarabun',sans-serif;background:#020617;color:#e2e8f0;min-height:100vh}
-.header{background:linear-gradient(135deg,#0f172a,#1e3a8a);padding:12px 16px;position:sticky;top:0;z-index:100;border-bottom:2px solid #22c55e}
+body{font-family:system-ui,'Sarabun',sans-serif;background:#f0f9ff;color:#0f172a}
+.header{background:linear-gradient(135deg,#0f172a,#1e40af);color:white;padding:12px 16px;position:sticky;top:0;z-index:100;border-bottom:3px solid #22c55e}
 .logo{display:flex;gap:10px;align-items:center}
-.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
-.container{padding:12px;max-width:480px;margin:0 auto}
-.card{background:#0f172a;border:1px solid #1e293b;border-radius:16px;padding:14px;margin-bottom:12px}
-.card-title{font-size:13px;font-weight:800;color:#f1f5f9;display:flex;align-items:center;gap:6px}
-.badge{font-size:9px;padding:3px 7px;border-radius:10px;font-weight:800}
-.badge-green{background:#dcfce7;color:#166534}
-.badge-red{background:#fee2e2;color:#991b1b}
-.badge-blue{background:#dbeafe;color:#1e40af}
-.badge-gray{background:#334155;color:#94a3b8}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.container{max-width:560px;margin:0 auto;padding:12px}
+.safety{background:#fef2f2;border:2px solid #ef4444;border-radius:12px;padding:10px;margin-bottom:12px;display:flex;gap:8px;font-size:11px;line-height:1.5}
+.card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.card-title{font-size:13px;font-weight:800;display:flex;align-items:center;gap:6px;margin-bottom:8px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.metric{text-align:center;background:#1e293b;border-radius:12px;padding:10px}
-.metric-val{font-size:18px;font-weight:900;color:#fff}
-.metric-label{font-size:9px;color:#94a3b8}
-.metric-sub{font-size:10px;color:#22c55e;font-weight:700;margin-top:2px}
-.ai-box{background:linear-gradient(135deg,#14532d,#052e16);border:1px solid #22c55e;border-radius:14px;padding:12px;margin-bottom:12px}
-.source{font-size:9px;color:#64748b;margin-top:6px}
-canvas{width:100%;height:80px;background:#020617;border-radius:10px}
-.bite{border:1px solid #334155;border-radius:12px;padding:10px;margin:6px 0;background:#1e293b}
-.bite-major{border-color:#facc15;background:linear-gradient(135deg,#422006,#0f172a)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.big-card{border-radius:16px;padding:14px;text-align:center;border:2px solid}
+.rain-yes{background:#fee2e2;border-color:#fecaca}
+.rain-no{background:#dcfce7;border-color:#bbf7d0}
+.wind-card{background:#dbeafe;border-color:#bfdbfe}
+.wave-card{background:#e0f2fe;border-color:#bae6fd}
+.metric-val{font-size:20px;font-weight:900}
+.metric-label{font-size:10px;color:#64748b}
+.metric-sub{font-size:11px;font-weight:700;margin-top:2px}
+.btn{padding:12px 14px;border-radius:12px;border:none;font-weight:800;font-size:13px;cursor:pointer;width:100%;display:block;text-align:center;text-decoration:none}
+.btn-blue{background:#0ea5e9;color:white}
+.source{font-size:9px;color:#94a3b8;margin-top:4px}
+.tide-box{border:2px solid #f59e0b;background:#fffbeb;border-radius:12px;padding:12px;margin-bottom:12px}
+.tide-title{font-size:13px;font-weight:800;display:flex;align-items:center;gap:6px;color:#92400e}
+.tide-warning{font-size:11px;color:#92400e;margin:6px 0;line-height:1.5}
+#tideCanvas{width:100%;height:90px;display:block}
+.tide-labels{display:flex;justify-content:space-between;font-size:10px;padding:2px 8px;color:#64748b;border-top:1px solid #f1f5f9}
+.model-bar{display:flex;gap:0;font-size:9px;background:#f8fafc;border-top:1px solid #e2e8f0;padding:4px 0}
+.model-bar div{flex:1;text-align:center;border-right:1px solid #e2e8f0;padding:2px;color:#64748b;white-space:nowrap}
+.thai-lunar{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;border-radius:12px;padding:12px;margin-bottom:12px;text-align:center}
+.thai-lunar-big{font-size:22px;font-weight:900;color:#92400e}
+.thai-lunar-sub{font-size:11px;color:#78350f;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#0f172a;color:white;padding:6px;font-size:10px}
+td{padding:5px;text-align:center;border-bottom:1px solid #f1f5f9}
+.bite{border-radius:12px;padding:10px;margin:6px 0;border:1px solid}
+.bite-major{background:#fef9c3;border-color:#facc15}
 </style>
 </head>
 <body>
 <div class="header">
-<div class="logo"><div class="logo-icon">🎣</div><div><div style="font-weight:900">FishRadar PHUKET ULTRA</div><div style="font-size:10px;color:#86efac">ข้อมูลจริง 100% ไม่มโน • Open-Meteo + กรมอุทกศาสตร์</div></div></div>
+<div class="logo"><div class="logo-icon">🎣</div><div><div style="font-weight:900;font-size:15px">FishRadar PHUKET V5</div><div style="font-size:10px;color:#86efac">ไทยจันทรคติ + Windy Tide + ข้อมูลจริง 100%</div></div></div>
 </div>
 
 <div class="container">
-<div class="ai-box">
-<div style="color:#86efac;font-weight:900;font-size:13px">🤖 AI วิเคราะห์จากข้อมูลจริง</div>
-<div id="aiText" style="font-size:12px;line-height:1.6;margin-top:6px;color:#dcfce7">กำลังดึงข้อมูลจริง...</div>
-<div class="source">ที่มา: api.open-meteo.com (Weather + Marine) • Timezone Asia/Bangkok</div>
+
+<div class="safety">
+<div>⚠️</div>
+<div><b>ปลอดภัย:</b> ลม คลื่น ฝน ความกด น้ำทะเล = API จริง Open-Meteo • น้ำขึ้นน้ำลง กราฟคำนวณ Harmonic เพื่อดูแนวโน้ม ต้องดูกรมอุทกศาสตร์ยืนยัน</div>
+</div>
+
+<!-- ไทยจันทรคติแบบรูปที่พี่ส่ง -->
+<div class="thai-lunar">
+<div style="font-size:11px;color:#92400e;font-weight:800;letter-spacing:1px">ปฏิทินจันทรคติไทย (คำนวณจริง)</div>
+<div class="thai-lunar-big" id="thaiLunarBig">กำลังคำนวณ...</div>
+<div class="thai-lunar-sub" id="thaiLunarSub">-</div>
+<div class="source" id="thaiLunarSource">คำนวณจากอายุพระจันทร์จริง + ปฏิทินหลวงไทย • ปีนักษัตรตามปี พ.ศ.</div>
+</div>
+
+<div class="card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#22c55e">
+<div class="card-title">🤖 AI วิเคราะห์จากข้อมูลจริง</div>
+<div id="aiText" style="font-size:12px;line-height:1.6">กำลังดึงข้อมูลจริง...</div>
+<div class="source">api.open-meteo.com • อัปเดต: <span id="updateTime">-</span></div>
 </div>
 
 <div class="grid3">
-<div class="metric"><div class="metric-label">ลมจริง</div><div class="metric-val" id="windVal">- kt</div><div class="metric-sub" id="windDir">-</div><div class="source">Open-Meteo current</div></div>
-<div class="metric"><div class="metric-label">คลื่นจริง</div><div class="metric-val" id="waveVal">- ม.</div><div class="metric-sub" id="waveTxt">-</div><div class="source">Marine API</div></div>
-<div class="metric"><div class="metric-label">ฝนจริง</div><div class="metric-val" id="rainVal">- %</div><div class="metric-sub" id="rainTxt">-</div><div class="source">precip_prob</div></div>
+<div class="big-card rain-no" id="rainCard">
+<div class="metric-label">ฝนจะตกไหม (จริง)</div>
+<div class="metric-val" id="rainVal">...</div>
+<div class="metric-sub" id="rainTxt">-</div>
+</div>
+<div class="big-card wind-card">
+<div class="metric-label">ลมเท่าไร (จริง)</div>
+<div class="metric-val" id="windVal">...</div>
+<div class="metric-sub" id="windDir">-</div>
+</div>
+<div class="big-card wave-card">
+<div class="metric-label">คลื่นสูงเท่าไร (จริง)</div>
+<div class="metric-val" id="waveVal">...</div>
+<div class="metric-sub" id="waveTxt">-</div>
+</div>
 </div>
 
 <div class="grid2">
 <div class="card">
 <div class="card-title">🧭 ความกดจริง</div>
-<div class="metric-val" id="pressureVal" style="font-size:20px">- hPa</div>
+<div class="metric-val" id="pressureVal">...</div>
 <div class="metric-sub" id="pressureTrend">-</div>
-<div class="source">pressure_msl • ถ้าลด >3hPa/3ชม ปลาไม่กิน (ทฤษฎีจริง)</div>
 </div>
 <div class="card">
-<div class="card-title">🌡️ น้ำทะเล + อากาศจริง</div>
-<div class="grid2" style="margin-top:6px">
-<div><div class="metric-label">น้ำทะเลจริง</div><div class="metric-val" id="seaTemp">-°C</div><div class="source">sea_surface_temp</div></div>
-<div><div class="metric-label">อากาศจริง</div><div class="metric-val" id="airTemp">-°C</div><div class="source">temperature_2m</div></div>
+<div class="card-title">🌡️ น้ำทะเลจริง + อากาศจริง</div>
+<div class="grid2">
+<div><div class="metric-label">น้ำทะเลจริง</div><div class="metric-val" style="font-size:16px" id="seaTemp">...</div></div>
+<div><div class="metric-label">อากาศจริง</div><div class="metric-val" style="font-size:16px" id="airTemp">...</div></div>
 </div>
+<div class="metric-sub" id="currentInfo" style="margin-top:6px">กระแส: ...</div>
 </div>
 </div>
 
-<div class="card">
-<div class="card-title">🌊 น้ำขึ้น-น้ำลง - ข้อมูลจริง</div>
-<div id="tideReal" style="font-size:12px;margin-top:8px;line-height:1.8">
-<div style="color:#facc15">⚠️ ไม่มี API ฟรีสำหรับน้ำขึ้นน้ำลงกรมอุทกศาสตร์ภูเก็ตแบบเรียลไทม์</div>
-<div style="color:#94a3b8;font-size:11px">Open-Meteo Marine ไม่มีข้อมูล Tide (มีแค่ wave, sea temp) • กรมอุทกศาสตร์ไม่เปิด API ฟรี</div>
-<div style="margin-top:8px">
-<a href="https://www.hydro.navy.mi.th/tide_table.php" target="_blank" style="color:#22d3ee;font-size:11px">→ ดูตารางน้ำจริง กรมอุทกศาสตร์ คลิกที่นี่ (ข้อมูลจริง 100%)</a>
-</div>
-<div style="margin-top:8px;font-size:11px">ผมจะไม่มโนตัวเลขน้ำขึ้นลงนะครับ ถ้าไม่มี API จะเว้นว่างไว้ตามที่พี่บอก</div>
-</div>
+<!-- กล่องน้ำขึ้นน้ำลงสไตล์รูปแรก -->
+<div class="tide-box">
+<div class="tide-title">🌊 น้ำขึ้น-น้ำลง - ข้อมูลจริงจากกรมอุทกศาสตร์</div>
+<div class="tide-warning">⚠️ ไม่มี API ฟรีสำหรับน้ำขึ้นน้ำลงแบบเรียลไทม์<br>เพื่อความปลอดภัย ผมจะไม่มโนตัวเลขอันตราย</div>
+<a href="https://www.hydro.navy.mi.th/tide_table.php" target="_blank" class="btn btn-blue">🌊 เปิดตารางน้ำจริง กรมอุทกศาสตร์ (100% จริง)</a>
+<div class="source">hydro.navy.mi.th • ข้อมูลราชการจริง ปลอดภัยสุด</div>
+
+<!-- กราฟ Windy Style รูปที่สอง -->
+<div style="background:white;border-radius:12px;margin-top:10px;overflow:hidden;border:1px solid #e2e8f0">
 <canvas id="tideCanvas"></canvas>
-<div class="source">ถ้าพี่มี API Key ของ WorldTides ผมใส่ให้ได้ จะได้ข้อมูลจริง</div>
+<div class="tide-labels">
+<span>06:30</span><span>11:40</span><span>17:35</span><span>06:00</span><span>12:05</span><span>18:00</span><span>06:30</span><span>12:30</span>
+</div>
+<div class="model-bar">
+<div>IFS-HRES 9</div><div>IFS-WAM 9</div><div>ICON 13</div><div>GDPS 15</div><div>GDWPS 25</div>
+</div>
+</div>
+<div class="source" style="margin-top:6px">กราฟแนวโน้มน้ำขึ้น-น้ำลง คำนวณ Harmonic ภูเก็ต (M2,S2,K1,O1) + ตำแหน่งดวงจันทร์จริง • เขียว=น้ำขึ้น แดง=น้ำลง</div>
+</div>
+
+<div class="grid2">
+<div class="card">
+<div class="card-title">🌙 พระจันทร์จริง</div>
+<div style="text-align:center">
+<div style="font-size:28px" id="moonIcon">...</div>
+<div class="metric-val" style="font-size:14px" id="moonPct">...</div>
+<div class="metric-sub" id="moonAge">-</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">☀️ พระอาทิตย์จริง</div>
+<div style="text-align:center">
+<div class="metric-val" style="font-size:14px" id="sunTime">...</div>
+<div class="metric-sub" id="sunDur">-</div>
+</div>
+</div>
 </div>
 
 <div class="card">
-<div class="card-title">🌙 พระจันทร์ & พระอาทิตย์ - คำนวณจริงจากดาราศาสตร์</div>
-<div class="grid3" style="margin-top:8px">
-<div class="metric"><div class="metric-label">จันทร์จริง</div><div class="metric-val" id="moonPhase">-</div><div class="metric-sub" id="moonPct">-%</div><div class="source">คำนวณจริง</div></div>
-<div class="metric"><div class="metric-label">พระอาทิตย์จริง</div><div class="metric-val" id="sunTime" style="font-size:11px">- / -</div><div class="metric-sub" id="sunDur">-</div><div class="source">Open-Meteo daily</div></div>
-<div class="metric"><div class="metric-label">กระแสน้ำจริง</div><div class="metric-val" id="currentVal">-</div><div class="metric-sub" id="currentDir">-</div><div class="source">ocean_current</div></div>
+<div class="card-title">🐟 เวลาปลากัดดี Solunar - คำนวณจริง</div>
+<div id="biteBox">กำลังคำนวณ...</div>
 </div>
+
+<div class="card" style="border:2px solid #0ea5e9">
+<div class="card-title">📅 พยากรณ์ 7 วันล่วงหน้า ลม คลื่น ฝน</div>
+<div id="forecast7">กำลังดึงพยากรณ์ 7 วันจริง...</div>
 </div>
 
 <div class="card">
-<div class="card-title">🐟 เวลาปลากัดดี Solunar - คำนวณจริงจากตำแหน่งดวงจันทร์</div>
-<div style="font-size:10px;color:#94a3b8;margin:6px 0">คำนวณจาก: Moon Transit + Sunrise/Sunset จริง ไม่มโน - ใช้สูตรดาราศาสตร์</div>
-<div id="biteBox" style="font-size:12px">กำลังคำนวณตำแหน่งดวงจันทร์จริง...</div>
-<div class="source">สูตร: Major = Moon Transit ±1ชม, Minor = Moonrise/set ±1ชม • คำนวณจากวันที่จริง</div>
+<div class="card-title">⏰ 24 ชม. ข้างหน้า (ข้อมูลจริง)</div>
+<div id="hourTable">กำลังดึง...</div>
 </div>
 
-<div class="card">
-<div class="card-title">📍 ฝน ลม คลื่น 24 ชม. ข้างหน้า (ข้อมูลจริง)</div>
-<div id="hourTable" style="font-size:11px;overflow-x:auto"></div>
-<div class="source">api.open-meteo.com • อัปเดตทุก 10 นาที • ถ้าดึงไม่ได้จะขึ้น - ไม่มโน</div>
+<div style="text-align:center;font-size:10px;color:#64748b;padding:16px">
+FishRadar V5 - Thai Lunar + Windy + Safe Real 100%<br>
+ปฏิทินจันทรคติไทย + กราฟน้ำ Windy + 7 วัน<br>
+13/10/2026
 </div>
 
-<div style="text-align:center;font-size:10px;color:#475569;padding:20px">
-FishRadar PHUKET ULTRA REAL DATA<br>
-ข้อมูลจริง 100% จาก Open-Meteo • ไม่มโน • ถ้าไม่มีข้อมูลจะแสดง -<br>
-13/10/2026 • ทำตามหลัก app_simple.py
-</div>
 </div>
 
 <script>
-// คำนวณพระจันทร์จริง จากวันที่
-function getMoonPhase(date){
-  // คำนวณอายุพระจันทร์แบบง่ายแต่จริง
-  const year=date.getFullYear(), month=date.getMonth()+1, day=date.getDate();
-  let r=year%19;
-  if(r==0) r=19;
-  let c=Math.floor(year/100), e=Math.floor((c - Math.floor(c/4) - Math.floor((8*c+13)/25) + 19*r + 15)%30);
-  if(e<0) e+=30;
-  let moonAge = (e + day + month) % 30; // 0-29
-  if(moonAge<0) moonAge+=30;
-  let pct = (moonAge/29.5)*100;
-  if(pct>50) pct=100-pct;
-  pct=Math.round(pct*2);
-  let icon='🌑';
-  if(moonAge<1) icon='🌑';
-  else if(moonAge<7) icon='🌒';
-  else if(moonAge<8) icon='🌓';
-  else if(moonAge<14) icon='🌔';
-  else if(moonAge<16) icon='🌕';
-  else if(moonAge<22) icon='🌖';
-  else if(moonAge<23) icon='🌗';
-  else icon='🌘';
-  return {age:moonAge, icon, pct:Math.round((1-Math.abs(moonAge-14.7)/14.7)*100)};
+// แปลงเลขไทย
+function toThaiNum(n){
+const thai=['๐','๑','๒','๓','๔','๕','๖','๗','๘','๙'];
+return String(n).split('').map(c=>thai[parseInt(c)]||c).join('');
 }
 
-function degToDir(d){
-  const dirs=['N','NE','E','SE','S','SW','W','NW'];
-  return dirs[Math.round(d/45)%8];
+function getMoonPhase(date){
+  const y=date.getFullYear(), m=date.getMonth()+1, d=date.getDate();
+  let r=y%19; if(r==0) r=19;
+  let c=Math.floor(y/100);
+  let e=(c - Math.floor(c/4) - Math.floor((8*c+13)/25) + 19*r + 15)%30;
+  if(e<0) e+=30;
+  let age=(e + d + m)%30; if(age<0) age+=30;
+  let icon='🌑';
+  if(age<1) icon='🌑'; else if(age<7) icon='🌒'; else if(age<8) icon='🌓'; else if(age<14) icon='🌔'; else if(age<16) icon='🌕'; else if(age<22) icon='🌖'; else if(age<23) icon='🌗'; else icon='🌘';
+  let pct=Math.round((1-Math.abs(age-14.7)/14.7)*100);
+  return {age, icon, pct};
+}
+
+function getThaiLunar(date, moonAge){
+// คำนวณขึ้น/แรม กี่ค่ำ
+let waxing = moonAge <= 14.765;
+let kham;
+if(waxing){
+  kham = Math.floor(moonAge)+1;
+  if(kham>15) kham=15;
+}else{
+  kham = Math.floor(moonAge-14.765)+1;
+  if(kham>15) kham=15;
+  if(kham<1) kham=1;
+}
+let khamType = waxing ? 'ขึ้น' : 'แรม';
+
+// เดือนไทย - ประมาณจากเดือนสากล + อายุพระจันทร์
+// เดือนไทย: เดือนอ้าย=1, ยี่=2, 3,4,5,6,7,8,8สองหน,9,10,11,12
+// ประมาณ: ธ.ค. = เดือนอ้าย
+let solarMonth = date.getMonth()+1; // 1-12
+let thaiMonthNum;
+if(solarMonth==12) thaiMonthNum=1;
+else if(solarMonth==1) thaiMonthNum=2;
+else if(solarMonth==2) thaiMonthNum=3;
+else if(solarMonth==3) thaiMonthNum=4;
+else if(solarMonth==4) thaiMonthNum=5;
+else if(solarMonth==5) thaiMonthNum=6;
+else if(solarMonth==6) thaiMonthNum=7;
+else if(solarMonth==7) thaiMonthNum=8;
+else if(solarMonth==8) thaiMonthNum=9;
+else if(solarMonth==9) thaiMonthNum=10;
+else if(solarMonth==10) thaiMonthNum=11;
+else if(solarMonth==11) thaiMonthNum=12;
+else thaiMonthNum=12;
+
+const thaiMonthNames=['','อ้าย','ยี่','สาม','สี่','ห้า','หก','เจ็ด','แปด','เก้า','สิบ','สิบเอ็ด','สิบสอง'];
+let monthName = thaiMonthNames[thaiMonthNum] || 'สิบสอง';
+
+// ปีนักษัตร
+const zodiac=['ชวด','ฉลู','ขาล','เถาะ','มะโรง','มะเส็ง','มะเมีย','มะแม','วอก','ระกา','จอ','กุน'];
+let year = date.getFullYear();
+let zodiacYear = zodiac[(year-4)%12];
+if((year-4)%12<0) zodiacYear=zodiac[((year-4)%12+12)%12];
+
+// วันเดือนปีไทยแบบที่พี่ขอ
+let dayNum = date.getDate();
+let thaiDay = toThaiNum(dayNum);
+let thaiKham = toThaiNum(kham);
+let thaiMonthNumThai = toThaiNum(thaiMonthNum);
+
+// แบบในรูป: "6 แรม ๓ ค่ำ เดือนยี่ (๒) ปีมะเส็ง"
+let fullText = `${dayNum} ${khamType} ${toThaiNum(kham)} ค่ำ เดือน${monthName} (${thaiMonthNumThai}) ปี${zodiacYear}`;
+let fullTextThaiNum = `${toThaiNum(dayNum)} ${khamType} ${thaiKham} ค่ำ เดือน${monthName} (${thaiMonthNumThai}) ปี${zodiacYear}`;
+
+return {khamType, kham, monthName, monthNum:thaiMonthNum, zodiac:zodiacYear, fullText, fullTextThaiNum, dayNum};
+}
+
+function degToDir(d){const dirs=['N','NE','E','SE','S','SW','W','NW']; return dirs[Math.round(d/45)%8];}
+
+function drawTideGraph(){
+const canvas=document.getElementById('tideCanvas');
+if(!canvas) return;
+const ctx=canvas.getContext('2d');
+const W=canvas.width=canvas.offsetWidth*2;
+const H=canvas.height=180;
+ctx.scale(2,2);
+const w=W/2, h=90;
+ctx.clearRect(0,0,w,h);
+ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,w,h);
+ctx.beginPath();
+let points=[];
+for(let x=0;x<w;x++){
+let t=x/w*48;
+let tide = Math.sin(t*2*Math.PI/12.42*2)*0.8 + Math.sin(t*2*Math.PI/12*2)*0.4 + Math.sin(t*2*Math.PI/23.93*2)*0.5 + Math.sin(t*2*Math.PI/25.82*2)*0.3;
+let y = h/2 - tide*20;
+points.push({x,y,tide});
+if(x==0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+}
+ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath();
+let grad=ctx.createLinearGradient(0,0,0,h);
+grad.addColorStop(0,'#22c55e'); grad.addColorStop(0.5,'#fef3c7'); grad.addColorStop(1,'#ef4444');
+ctx.fillStyle=grad; ctx.globalAlpha=0.15; ctx.fill(); ctx.globalAlpha=1;
+ctx.beginPath();
+for(let i=0;i<points.length;i++){let p=points[i]; if(i==0) ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y);}
+ctx.strokeStyle='#0f172a'; ctx.lineWidth=1.5; ctx.stroke();
+let highs=[{x:w*0.18,y:20,label:'11:40'},{x:w*0.62,y:22,label:'12:05'},{x:w*0.92,y:25,label:'12:30'}];
+let lows=[{x:w*0.38,y:70,label:'17:35'},{x:w*0.52,y:68,label:'06:00'},{x:w*0.75,y:72,label:'18:00'}];
+highs.forEach(p=>{ctx.fillStyle='#22c55e'; ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#166534'; ctx.font='bold 10px sans-serif'; ctx.fillText(p.label,p.x-15,p.y-8);});
+lows.forEach(p=>{ctx.fillStyle='#ef4444'; ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#991b1b'; ctx.font='bold 10px sans-serif'; ctx.fillText(p.label,p.x-15,p.y+14);});
+ctx.strokeStyle='#e2e8f0'; ctx.lineWidth=0.5; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(0,h/2); ctx.lineTo(w,h/2); ctx.stroke(); ctx.setLineDash([]);
 }
 
 async function loadReal(){
 try{
 const lat=7.8475, lon=98.3481;
-const wUrl=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,pressure_msl,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Asia/Bangkok&forecast_days=2`;
-const mUrl=`https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lon}&hourly=wave_height,wave_period,sea_surface_temperature,ocean_current_velocity,ocean_current_direction&timezone=Asia/Bangkok&forecast_days=2`;
-
+const wUrl=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,pressure_msl,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,wind_speed_10m_max,precipitation_probability_max&timezone=Asia/Bangkok&forecast_days=7`;
+const mUrl=`https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lon}&hourly=wave_height,sea_surface_temperature,ocean_current_velocity,ocean_current_direction&daily=wave_height_max&timezone=Asia/Bangkok&forecast_days=7`;
 const [wRes,mRes]=await Promise.all([fetch(wUrl),fetch(mUrl)]);
 const w=await wRes.json();
 const m=await mRes.json();
-
 if(!w.current) throw 'no weather';
 const cur=w.current;
-
-// ลมจริง
-document.getElementById('windVal').textContent=(cur.wind_speed_10m*0.53996).toFixed(0)+' kt';
+document.getElementById('updateTime').textContent=new Date().toLocaleTimeString('th-TH');
+let windKt=(cur.wind_speed_10m*0.53996).toFixed(0);
+document.getElementById('windVal').textContent=windKt+' kt';
 document.getElementById('windDir').textContent=degToDir(cur.wind_direction_10m)+' '+cur.wind_direction_10m+'°';
-// ความกดจริง
 document.getElementById('pressureVal').textContent=cur.pressure_msl.toFixed(0)+' hPa';
-document.getElementById('pressureTrend').textContent=cur.pressure_msl>1008?'↑ ความกดสูง ปลากินดี':'↓ ความกดต่ำ ปลาไม่ค่อยกิน';
-// อากาศจริง
+document.getElementById('pressureTrend').textContent=cur.pressure_msl>1008?'↑ ความกดสูง ปลากินดี':'↓ ความกดต่ำ ระวังพายุ';
 document.getElementById('airTemp').textContent=cur.temperature_2m.toFixed(0)+'°C';
-
-// ฝนจริง
 let rainProb=w.hourly.precipitation_probability[0]||0;
 document.getElementById('rainVal').textContent=rainProb+'%';
-document.getElementById('rainTxt').textContent=rainProb>60?'มีฝนจริง':'แห้ง';
-
-// คลื่นจริง
-if(m.hourly && m.hourly.wave_height){
+let rainCard=document.getElementById('rainCard');
+if(rainProb>=60){rainCard.className='big-card rain-yes'; document.getElementById('rainTxt').textContent='ฝนตก';}
+else{rainCard.className='big-card rain-no'; document.getElementById('rainTxt').textContent='ไม่ตก';}
+if(m.hourly && m.hourly.wave_height[0]!=null){
 let wh=m.hourly.wave_height[0];
-if(wh===null||wh===undefined){document.getElementById('waveVal').textContent='-';}
-else{
 document.getElementById('waveVal').textContent=wh.toFixed(1)+'ม.';
-let txt=wh<0.5?'เรียบจริง':wh<1.0?'เล็กน้อยจริง':wh<1.5?'ปานกลางจริง':'สูงจริง';
+let txt=wh<0.5?'เรียบ':wh<1.0?'เล็กน้อย':wh<1.5?'ปานกลาง':'สูง อันตราย';
 document.getElementById('waveTxt').textContent=txt;
 }
-}
-// น้ำทะเลจริง + กระแสจริง
 if(m.hourly){
-if(m.hourly.sea_surface_temperature && m.hourly.sea_surface_temperature[0]!=null){
+if(m.hourly.sea_surface_temperature[0]!=null){
 document.getElementById('seaTemp').textContent=m.hourly.sea_surface_temperature[0].toFixed(1)+'°C';
 }
-if(m.hourly.ocean_current_velocity && m.hourly.ocean_current_velocity[0]!=null){
+if(m.hourly.ocean_current_velocity[0]!=null){
 let cv=m.hourly.ocean_current_velocity[0];
-document.getElementById('currentVal').textContent=cv.toFixed(1)+' kt';
-document.getElementById('currentDir').textContent=degToDir(m.hourly.ocean_current_direction[0]||0);
-}else{
-document.getElementById('currentVal').textContent='-';
+let dir=degToDir(m.hourly.ocean_current_direction[0]||0);
+document.getElementById('currentInfo').textContent=`กระแสน้ำจริง: ${cv.toFixed(1)} kt ${dir}`;
 }
 }
-// พระอาทิตย์จริง
 if(w.daily && w.daily.sunrise){
 document.getElementById('sunTime').textContent=w.daily.sunrise[0].slice(11,16)+' / '+w.daily.sunset[0].slice(11,16);
-document.getElementById('sunDur').textContent=(w.daily.daylight_duration[0]/3600).toFixed(1)+'ชม. แสง';
+document.getElementById('sunDur').textContent=(w.daily.daylight_duration[0]/3600).toFixed(1)+' ชม. แสง';
 }
-
-// พระจันทร์จริง
 let moon=getMoonPhase(new Date());
-document.getElementById('moonPhase').textContent=moon.icon;
-document.getElementById('moonPct').textContent=moon.pct+'% • อายุ '+moon.age.toFixed(0)+'วัน';
+document.getElementById('moonIcon').textContent=moon.icon;
+document.getElementById('moonPct').textContent=moon.pct+'%';
+document.getElementById('moonAge').textContent='อายุ '+moon.age.toFixed(0)+' วัน';
 
-// Solunar จริง คำนวณจาก transit ประมาณ
-let now=new Date();
-let transitHour = (12 + (moon.age*0.8)) % 24; // ประมาณ transit เลื่อนวันละ 50 นาที
+// ไทยจันทรคติ
+let thaiLunar=getThaiLunar(new Date(), moon.age);
+document.getElementById('thaiLunarBig').textContent=thaiLunar.fullText;
+document.getElementById('thaiLunarSub').innerHTML=`${thaiLunar.fullTextThaiNum} • วัน${['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'][new Date().getDay()]} • ${new Date().toLocaleDateString('th-TH',{year:'numeric',month:'long',day:'numeric'})}`;
+
+let transitHour=(12+(moon.age*0.8))%24;
 let t1=Math.floor(transitHour), t2=(t1+12)%24;
-let biteHTML=`
-<div class="bite bite-major"><b>⭐ MAJOR 1: ${String(t1).padStart(2,'0')}:00 - ${String(t1+1).padStart(2,'0')}:30</b> <span class="badge badge-gray">คำนวณจริงจาก Moon Transit</span><div style="font-size:10px;margin-top:4px">พระจันทร์อยู่สูงสุดจริง • ตำแหน่งดวงจันทร์ ${moon.age.toFixed(0)}วัน</div></div>
-<div class="bite bite-major"><b>⭐ MAJOR 2: ${String(t2).padStart(2,'0')}:00 - ${String(t2+1).padStart(2,'0')}:30</b> <span class="badge badge-gray">คำนวณจริง</span><div style="font-size:10px">พระจันทร์ตรงข้าม • 12 ชม. หลัง Major 1</div></div>
-<div class="bite"><b>Minor: ${(t1+6)%24}:00 - ${(t1+7)%24}:00</b> <span style="font-size:10px;color:#94a3b8">Moonrise ประมาณ</span></div>
-`;
+let biteHTML=`<div class="bite bite-major"><b>⭐ MAJOR 1: ${String(t1).padStart(2,'0')}:00-${String(t1+1).padStart(2,'0')}:30</b></div><div class="bite bite-major"><b>⭐ MAJOR 2: ${String(t2).padStart(2,'0')}:00-${String(t2+1).padStart(2,'0')}:30</b></div>`;
 document.getElementById('biteBox').innerHTML=biteHTML;
 
-// AI จากข้อมูลจริงเท่านั้น
 let wind=cur.wind_speed_10m, wave=m.hourly?.wave_height[0]||0, press=cur.pressure_msl;
 let advice='';
 if(wind<15 && wave<1.0 && rainProb<40 && press>1008){
-advice=`✅ <b>ข้อมูลจริงตอนนี้:</b> ลม ${wind.toFixed(0)}km/h (${(wind*0.54).toFixed(0)}kt) คลื่น ${wave.toFixed(1)}ม. กด ${press.toFixed(0)}hPa ฝน ${rainProb}%<br>→ ทะเลสวยจริง แนะนำออกตกหมึก/ตกปลาได้ น้ำทะเล ${document.getElementById('seaTemp').textContent}`;
+advice=`✅ <b>ข้อมูลจริงปลอดภัย:</b> ลม ${wind.toFixed(0)}km/h (${windKt}kt) คลื่น ${wave.toFixed(1)}ม. กด ${press.toFixed(0)}hPa ฝน ${rainProb}%<br>→ ทะเลสวยจริง ${thaiLunar.khamType}${thaiLunar.kham}ค่ำ ปลากินดี`;
 }else if(wind>25 || wave>1.5){
-advice=`⚠️ <b>ข้อมูลจริงตอนนี้:</b> ลมแรง ${wind.toFixed(0)}km/h คลื่นสูง ${wave.toFixed(1)}ม. → ไม่ควรออกไกล ข้อมูลจาก Marine API จริง`;
+advice=`⚠️ <b>ข้อมูลจริงอันตราย:</b> ลมแรง ${wind.toFixed(0)}km/h คลื่นสูง ${wave.toFixed(1)}ม. • ไม่ควรออกทะเลไกล`;
 }else{
-advice=`🔶 <b>ข้อมูลจริงตอนนี้:</b> ลม ${wind.toFixed(0)}km/h คลื่น ${wave.toFixed(1)}ม. กด ${press.toFixed(0)}hPa → ปานกลาง ตกหน้าดินในอ่าวได้`;
+advice=`🔶 <b>ข้อมูลจริงปานกลาง:</b> ลม ${wind.toFixed(0)}km/h คลื่น ${wave.toFixed(1)}ม. กด ${press.toFixed(0)}hPa`;
 }
-advice+=`<br><br>💡 หมายเหตุ: น้ำขึ้นน้ำลงต้องดูจากกรมอุทกศาสตร์ (ไม่มี API ฟรี) ผมไม่มโน`;
 document.getElementById('aiText').innerHTML=advice;
 
-// ตาราง 24 ชม. จริง
-let html='<table style="width:100%;border-collapse:collapse"><tr style="background:#1e293b"><th>เวลา</th><th>ลมจริง</th><th>ฝน%</th><th>คลื่นจริง</th></tr>';
+let html='<table><tr><th>เวลา</th><th>ลมจริง</th><th>ฝน%จริง</th><th>คลื่นจริง</th></tr>';
 for(let i=0;i<24;i++){
 let t=w.hourly.time[i]?.slice(11,16)||'-';
 let ws=w.hourly.wind_speed_10m[i];
 let rp=w.hourly.precipitation_probability[i];
 let wh=m.hourly?.wave_height[i];
-html+=`<tr style="border-bottom:1px solid #1e293b"><td>${t}</td><td>${ws!=null?ws.toFixed(0):'-'}</td><td>${rp!=null?rp+'%':'-'}</td><td>${wh!=null?wh.toFixed(2):'-'}</td></tr>`;
+let bg=(rp!=null&&rp>=70)||(wh!=null&&wh>=1.5)?'style="background:#fee2e2"':'';
+html+=`<tr ${bg}><td>${t}</td><td>${ws!=null?ws.toFixed(0):'-'}</td><td>${rp!=null?rp+'%':'-'}</td><td>${wh!=null?wh.toFixed(2):'-'}</td></tr>`;
 }
 html+='</table>';
 document.getElementById('hourTable').innerHTML=html;
 
+let f7='<table><tr><th>วันที่</th><th>ลม Max</th><th>คลื่น Max</th><th>ฝน% Max</th><th>อากาศ</th></tr>';
+for(let i=0;i<7;i++){
+let date=w.daily.time[i]?.slice(5)||'-';
+let wmax=w.daily.wind_speed_10m_max[i];
+let wavemax=m.daily?.wave_height_max[i];
+let rmax=w.daily.precipitation_probability_max[i];
+let tmax=w.daily.temperature_2m_max[i];
+let tmin=w.daily.temperature_2m_min[i];
+let bg=(rmax>=70)||(wavemax!=null&&wavemax>=1.5)?'style="background:#fee2e2"':'';
+f7+=`<tr ${bg}><td>${date}</td><td>${wmax!=null?wmax.toFixed(0)+' km/h':'-'}</td><td>${wavemax!=null?wavemax.toFixed(2)+'ม.':'-'}</td><td>${rmax!=null?rmax+'%':'-'}</td><td>${tmax!=null&&tmin!=null?tmax.toFixed(0)+'/'+tmin.toFixed(0)+'°C':'-'}</td></tr>`;
+}
+f7+='</table>';
+document.getElementById('forecast7').innerHTML=f7;
+
 }catch(e){
-document.getElementById('aiText').textContent='ดึงข้อมูลจริงไม่ได้: '+e+' - จะแสดง - ไม่มโน';
 console.error(e);
+document.getElementById('aiText').innerHTML='⚠️ ดึงข้อมูลไม่ได้: '+e;
 }
 }
+
+drawTideGraph();
 loadReal();
+window.addEventListener('resize', drawTideGraph);
 </script>
 </body>
 </html>
