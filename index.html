@@ -3,75 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FishRadar PHUKET - SMALL LOGO FIXED REAL WAVE - NO FAKE TIDE</title>
+<title>FishRadar PHUKET - REAL from khaophuket.com</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:12px;min-height:100vh}
+body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:12px}
 .top{max-width:480px;margin:0 auto;background:#0f1a32;border:1px solid #1e293b;border-radius:16px;padding:12px;display:flex;justify-content:space-between;align-items:center}
-.logo{width:36px;height:36px;background:#00d4ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#060e26;font-size:18px;flex-shrink:0}
-.title b{font-size:15px} .title small{font-size:11px;color:#94a3b8}
+.logo{width:36px;height:36px;background:#00d4ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#060e26}
 .card{max-width:480px;margin:12px auto;background:#0f1a32;border:1px solid #1e293b;border-radius:16px;padding:14px}
 .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}
 .mini{background:#162040;border-radius:12px;padding:10px;text-align:center}
-.mini b{font-size:16px;display:block;margin:4px 0}
+.mini b{font-size:16px;display:block}
+.tide{background:#0b1a3a;border:1px solid #10b981;border-radius:12px;padding:12px;margin:10px 0}
+.tide-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #ffffff14;font-size:13px}
 .day{border:1px solid #1e293b;border-radius:12px;margin:8px 0;overflow:hidden}
 .day-head{padding:10px 12px;background:#162040;display:flex;justify-content:space-between;cursor:pointer;font-size:13px}
-.slots{display:none;padding:6px}
-.day.open .slots{display:block}
-.slot{display:flex;gap:6px;padding:6px 0;font-size:12px;border-bottom:1px solid #ffffff0a;align-items:center}
+.slots{display:none;padding:6px}.day.open .slots{display:block}
+.slot{display:flex;gap:6px;padding:6px 0;font-size:12px;border-bottom:1px solid #ffffff0a}
 .kt{color:#38bdf8;font-weight:700}
-.link-btn{display:block;text-align:center;background:#0b1a3a;border:1px dashed #38bdf8;color:#38bdf8;padding:12px;border-radius:12px;margin:10px 0;text-decoration:none;font-weight:700;font-size:13px}
+.btn{display:block;text-align:center;background:#0b1a3a;border:1px solid #10b981;color:#10b981;padding:12px;border-radius:12px;margin:10px 0;text-decoration:none;font-weight:700}
 .src{font-size:10px;color:#64748b;margin-top:8px;line-height:1.4}
 </style>
 </head>
 <body>
 <div class="top">
-<div style="display:flex;gap:10px;align-items:center">
-<div class="logo">🎣</div>
-<div class="title"><b>FishRadar PHUKET</b><br><small>ลม คลื่น ฝน จริง 100% • ไม่มีน้ำมั่ว</small></div>
-</div>
-<div style="text-align:right"><div id="htime" style="font-weight:700;font-size:13px">--:--</div><div style="font-size:9px;color:#10b981">REAL WAVE FIXED</div></div>
-</div>
-
-<div class="card">
-<div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:14px">🌬️ ลม / คลื่น / ฝน 7 วัน</b><small style="color:#10b981;font-size:10px">Open-Meteo จริง • ไม่มโน</small></div>
-<div id="top3" class="grid"></div>
-<div id="days"></div>
-<div class="src">ลม+ฝน: Open-Meteo Weather จริง / คลื่น: Open-Meteo Marine จริง - ถ้าไม่มีข้อมูลจะขึ้น - ไม่สร้างเลขมั่วแบบ 09:00/16:00/19:00 อีก<br>น้ำขึ้นน้ำลง: ถูกลบออกตามคำสั่งพี่ tishero34 - ให้กดลิงก์ไปดูของจริงแทน</div>
-<a class="link-btn" href="https://www.hydro.navy.mi.th/tide_table.php" target="_blank">📅 เช็กน้ำขึ้นน้ำลงจริง กรมอุทกศาสตร์ กองทัพเรือ</a>
-<a class="link-btn" href="https://www.phuket-tide-tables.com/" target="_blank">📊 Phuket Tide Tables 2018-2026 (ตารางจริง)</a>
-</div>
-
-<script>
-const MARINE_API="https://marine-api.open-meteo.com/v1/marine?latitude=7.84&longitude=98.34&hourly=wave_height&daily=wave_height_max&timezone=Asia/Bangkok&forecast_days=7";
-const WEATHER_API="https://api.open-meteo.com/v1/forecast?latitude=7.84&longitude=98.34&daily=wind_speed_10m_max,precipitation_sum&hourly=wind_speed_10m,wind_direction_10m,precipitation&timezone=Asia/Bangkok&forecast_days=7";
-function fmt(v,d=1){if(v==null||isNaN(v))return"-";return Number(v).toFixed(d);}
-function toKnot(kmh){return kmh*0.539957;}
-async function load(){
-  const now=new Date();
-  document.getElementById('htime').innerHTML=now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})+"<br><span style='font-size:10px'>"+now.toLocaleDateString('th-TH',{day:'2-digit',month:'short'})+"</span>";
-  try{
-    const [rw,rm]=await Promise.all([fetch(WEATHER_API),fetch(MARINE_API)]);
-    const w=await rw.json(); const m=await rm.json();
-    const daily=w.daily; const dailyWave=m.daily.wave_height_max;
-    document.getElementById('top3').innerHTML=`<div class="mini">💨 ลม<br><b>${fmt(toKnot(daily.wind_speed_10m_max[0]),0)} kt</b><small>จริง</small></div><div class="mini">🌊 คลื่น<br><b>${fmt(dailyWave[0],1)} ม.</b><small>Marine จริง</small></div><div class="mini">🌧️ ฝน<br><b>${fmt(daily.precipitation_sum[0],1)} มม.</b><small>จริง</small></div>`;
-    let htmlDays="";
-    for(let d=0;d<7;d++){
-      let dateStr=daily.time[d]; let dateObj=new Date(dateStr); let dayName=d==0?'วันนี้':d==1?'พรุ่งนี้':dateObj.toLocaleDateString('th-TH',{weekday:'long'});
-      let isOpen=d==0?' open':''; let slots="";
-      for(let h of [1,4,7,10,13,16,19,22]){
-        let idx=w.hourly.time.findIndex(t=>t.startsWith(dateStr)&&new Date(t).getHours()==h); if(idx==-1) continue;
-        let waveIdx=m.hourly.time.findIndex(t=>t.startsWith(dateStr)&&new Date(t).getHours()==h);
-        let ws=toKnot(w.hourly.wind_speed_10m[idx]), wd=w.hourly.wind_direction_10m[idx], pr=w.hourly.precipitation[idx];
-        let wh=waveIdx!=-1?m.hourly.wave_height[waveIdx]:null;
-        slots+=`<div class="slot"><div style="width:30px">${String(h).padStart(2,'0')}น.</div><div style="transform:rotate(${wd}deg)">↗️</div><div class="kt">${fmt(ws,1)}kt</div><div>🌊${wh!=null?fmt(wh,1):'-'}ม.</div><div>${pr>0.2?`🌧️${fmt(pr,1)}`:''}</div></div>`;
-      }
-      htmlDays+=`<div class="day${isOpen}"><div class="day-head" onclick="this.parentElement.classList.toggle('open')"><b>${dayName} ${dateObj.toLocaleDateString('th-TH',{day:'2-digit',month:'short'})}</b><span>${fmt(toKnot(daily.wind_speed_10m_max[d]),0)}kt / ${fmt(dailyWave[d],1)}ม.</span></div><div class="slots">${slots}</div></div>`;
-    }
-    document.getElementById('days').innerHTML=htmlDays;
-  }catch(e){document.getElementById('days').innerHTML='โหลดไม่ได้: '+e.message;}
-}
-load();
-</script>
-</body>
-</html>
+<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#10b981">น้ำจริง khaophuket.com • ลมคลื่นจริง</
