@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FishRadar PHUKET</title>
+<title>FishRadar PHUKET - กดได้ชัวร์</title>
 <style>
 body{background:#060e26;color:#e2e8f0;font-family:sans-serif;padding:12px}
 .card{max-width:480px;margin:12px auto;background:#0f1a32;border:1px solid #1e293b;border-radius:16px;padding:14px}
@@ -11,8 +11,6 @@ body{background:#060e26;color:#e2e8f0;font-family:sans-serif;padding:12px}
 #tideCanvas{width:100%;height:200px;background:#060e26;border-radius:8px;display:block}
 .day{border:1px solid #2a3655;border-radius:12px;margin:8px 0;overflow:hidden}
 .day-head{padding:14px;background:#162040;display:flex;justify-content:space-between;cursor:pointer}
-.slots{display:none;padding:8px;background:#0f1a32}
-.day.open .slots{display:block}
 .slot{display:flex;gap:10px;padding:8px 0;font-size:13px;border-bottom:1px solid #ffffff14}
 .kt{color:#38bdf8;font-weight:700}
 </style>
@@ -22,10 +20,13 @@ body{background:#060e26;color:#e2e8f0;font-family:sans-serif;padding:12px}
 <div class="card">
 <b>🌊 กราฟน้ำขึ้นน้ำลง 13 ต.ค. 2026</b>
 <div class="tide-box"><canvas id="tideCanvas" width="800" height="400" style="width:100%;height:200px"></canvas></div>
+<div style="font-size:12px;margin-top:8px">
+<div>🌊 00:00 3.3ม. | 🔻 05-06น. 0.9ม. | 🔺 11-12น. 3.0ม. (11:36=3.05ม.) | 🔻 17-18น. 1.0ม. (17:41=0.97ม.) | 🌊 23น. 3.2ม.</div>
+</div>
 </div>
 
 <div class="card">
-<b>🌬️ ลม 7 วัน - จิ้มเพื่อกาง</b>
+<b>🌬️ ลม 7 วัน - จิ้มที่แถบเพื่อกาง</b>
 <div id="days"></div>
 </div>
 
@@ -34,21 +35,37 @@ const TIDE=[3.3,3.0,2.5,1.8,1.3,0.9,0.9,1.2,1.6,2.2,2.7,3.0,3.0,2.8,2.4,1.9,1.4,
 const c=document.getElementById('tideCanvas'); const ctx=c.getContext('2d');
 ctx.clearRect(0,0,800,400);
 function XY(i,v){return {x:80+i*700/23,y:60+(3.7-v)/3.2*240};}
-ctx.strokeStyle='#1e293b'; for(let y=60;y<300;y+=60){ctx.beginPath();ctx.moveTo(80,y);ctx.lineTo(780,y);ctx.stroke();}
+ctx.strokeStyle='#1e293b'; ctx.lineWidth=2; for(let y=60;y<300;y+=60){ctx.beginPath();ctx.moveTo(80,y);ctx.lineTo(780,y);ctx.stroke();}
 ctx.beginPath();ctx.strokeStyle='#10b981';ctx.lineWidth=6;TIDE.forEach((v,i)=>{let p=XY(i,v); if(i==0)ctx.moveTo(p.x,p.y);else ctx.lineTo(p.x,p.y);});ctx.stroke();
 
+function toggle(el){
+  const slots = el.nextElementSibling;
+  if(slots.style.display==='block'){
+    slots.style.display='none';
+  }else{
+    slots.style.display='block';
+  }
+}
+
 let html='';
-['วันนี้ 13 ต.ค. 5kt','พรุ่งนี้ 14 ต.ค. 6kt','วันพุธ 15 ต.ค. 5kt','วันพฤหัสบดี 16 ต.ค. 4kt','วันศุกร์ 17 ต.ค. 5kt','วันเสาร์ 18 ต.ค. 3kt','วันอาทิตย์ 19 ต.ค. 3kt'].forEach((lb,i)=>{
-  const open=i==0?' open':'';
-  html+=`<div class="day${open}">
-    <div class="day-head" onclick="this.parentElement.classList.toggle('open')">
-      <b>${lb.split(' ')[0]} ${lb.split(' ')[1]} ${lb.split(' ')[2]}</b><span>${lb.split(' ')[3]} ▼</span>
-    </div>
-    <div class="slots">
-      <div class="slot"><span>01น.</span><span class="kt">${5+i}kt</span><span>🌊0.5ม.</span></div>
-      <div class="slot"><span>07น.</span><span class="kt">${4+i}kt</span><span>🌊0.8ม.</span></div>
-      <div class="slot"><span>13น.</span><span class="kt">${3+i}kt</span><span>🌊1.2ม.</span></div>
-      <div class="slot"><span>19น.</span><span class="kt">${2+i}kt</span><span>🌊0.9ม.</span></div>
+const data=[
+  ['วันนี้ 13 ต.ค.','5kt'],
+  ['พรุ่งนี้ 14 ต.ค.','6kt'],
+  ['วันพุธ 15 ต.ค.','5kt'],
+  ['วันพฤหัสบดี 16 ต.ค.','4kt'],
+  ['วันศุกร์ 17 ต.ค.','5kt'],
+  ['วันเสาร์ 18 ต.ค.','3kt'],
+  ['วันอาทิตย์ 19 ต.ค.','3kt']
+];
+data.forEach((d,i)=>{
+  const open = i==0 ? 'block' : 'none';
+  html+=`<div class="day">
+    <div class="day-head" onclick="toggle(this)"><b>${d[0]}</b><span>${d[1]} ▼</span></div>
+    <div class="slots" style="display:${open};padding:8px;background:#0f1a32">
+      <div class="slot"><span>01น.</span><span class="kt">${5}kt</span><span>🌊0.5ม.</span></div>
+      <div class="slot"><span>07น.</span><span class="kt">${4}kt</span><span>🌊0.8ม.</span></div>
+      <div class="slot"><span>13น.</span><span class="kt">${3}kt</span><span>🌊1.2ม.</span></div>
+      <div class="slot"><span>19น.</span><span class="kt">${2}kt</span><span>🌊0.9ม.</span></div>
     </div>
   </div>`;
 });
