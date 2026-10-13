@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FishRadar PHUKET - FIXED CLICK + REAL TIDE GRAPH</title>
+<title>FishRadar PHUKET - CLICK FIXED + REAL TIDE GRAPH</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:12px}
@@ -17,19 +17,34 @@ body{background:#060e26;color:#e2e8f0;font-family:system-ui,sans-serif;padding:1
 canvas{width:100%;height:170px;display:block;background:#060e26;border-radius:8px}
 .tide-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid #ffffff14}
 .btn{display:block;text-align:center;background:#0b1a3a;border:1px solid #10b981;color:#10b981;padding:10px;border-radius:10px;margin:8px 0;text-decoration:none;font-weight:700;font-size:12px}
-
-/* แก้ตรงนี้ที่กดไม่ได้ */
-.day{border:1px solid #1e293b;border-radius:12px;margin:8px 0;overflow:hidden;background:#0f1a32}
-.day-head{padding:12px 14px;background:#162040;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
-.day-head:active{background:#1e2a4a}
+.day{border:1px solid #1e293b;border-radius:12px;margin:8px 0;overflow:hidden}
+.day-head{padding:14px;background:#162040;display:flex;justify-content:space-between;cursor:pointer;user-select:none}
+.day-head:active{background:#1e40af}
 .slots{display:none;padding:8px;background:#0f1a32}
-.day.open .slots{display:block !important}
-.slot{display:flex;gap:8px;padding:7px 0;font-size:12px;border-bottom:1px solid #ffffff0a;align-items:center}
+.day.open > .slots{display:block}
+.slot{display:flex;gap:8px;padding:7px 0;font-size:12px;border-bottom:1px solid #ffffff0a}
 .kt{color:#38bdf8;font-weight:700}
-.src{font-size:10px;color:#64748b;margin-top:6px;line-height:1.4}
+.src{font-size:10px;color:#64748b;margin-top:6px}
 </style>
 </head>
 <body>
 <div class="top">
-<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#10b981">กราฟน้ำจริง + กดดูรายชั่วโมงได้</small></div></div>
-<div id="htime" style="
+<div style="display:flex;gap:10px;align-items:center"><div class="logo">🎣</div><div><b>FishRadar PHUKET</b><br><small style="color:#10b981">กดที่วันที่ได้แล้ว + กราฟน้ำจริง</small></div></div>
+<div id="htime" style="font-weight:700;font-size:12px"></div>
+</div>
+
+<div class="card">
+<b>🌊 กราฟน้ำขึ้นน้ำลง 13 ต.ค. 2026 - khaophuket.com</b>
+<div class="tide-graph"><canvas id="tideCanvas" width="800" height="340"></canvas></div>
+<div id="tideInfo"></div>
+<a class="btn" href="https://www.khaophuket.com/phuket-tide-table.php" target="_blank">✅ ดูตารางเต็มที่ khaophuket.com</a>
+</div>
+
+<div class="card">
+<b>🌬️ ลม / คลื่น / ฝน 7 วัน - จิ้มที่แถบวันที่เพื่อขยาย</b>
+<div id="top3" class="grid"></div>
+<div id="days"></div>
+</div>
+
+<script>
+const TIDE=[3.3,3.0,2.5,1.8,1.3,0.9,0.9,1.2,1.6,2.2,2.7,3.0,
