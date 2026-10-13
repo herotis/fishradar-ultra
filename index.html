@@ -2,154 +2,387 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="color-scheme" content="dark">
 <title>FishRadar PHUKET — Marine Weather</title>
 <style>
-:root{--bg:#07111f;--panel:#101e30;--panel2:#14263b;--line:#263c54;--text:#f2f7fc;--muted:#a8bbce;--cyan:#63d8ff;--teal:#53e0bd;--yellow:#ffd166;--red:#ff6b81;--shadow:0 14px 36px #0003}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0b1b2b 0,#07111f 420px);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;padding:0}
-main{max-width:1180px;margin:auto;padding:22px 18px 32px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin:0 0 22px;padding:8px 0}.brand{font-size:clamp(27px,4vw,38px);font-weight:850;letter-spacing:-.8px}.sub,.muted{color:var(--muted)}.pill{border:1px solid #34506c;border-radius:999px;padding:7px 12px;font-size:12px;color:#c7d8e9;display:inline-flex;gap:7px;align-items:center;background:#102238}.dot{width:8px;height:8px;border-radius:50%;background:var(--yellow);display:inline-block;box-shadow:0 0 10px currentColor}.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.card{background:linear-gradient(145deg,#122238,#0d1a2b);border:1px solid var(--line);border-radius:19px;padding:20px;min-width:0;box-shadow:var(--shadow)}.span12{grid-column:span 12}.span8{grid-column:span 8}.span6{grid-column:span 6}.span4{grid-column:span 4}h2{font-size:17px;line-height:1.35;margin:0 0 5px;letter-spacing:-.15px}h3{font-size:14px;margin:12px 0 6px}.hint{font-size:12px;color:var(--muted)}.row{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.big{font-size:clamp(27px,3vw,36px);font-weight:850;letter-spacing:-1px;line-height:1.25;margin:13px 0 5px}.metric{font-size:22px;font-weight:750}.cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}.mini{padding:13px;background:#0a1727;border:1px solid #263d55;border-radius:13px}.mini .value{font-size:20px;font-weight:780;margin-top:3px}.mini .label{font-size:12px;color:var(--muted)}canvas{display:block;width:100%;height:235px;background:#091727;border:1px solid #1e3349;border-radius:13px;margin-top:16px}button,select,input{font:inherit;color:var(--text);background:#152b42;border:1px solid #3b5873;border-radius:11px;padding:10px 12px}button{cursor:pointer;transition:transform .15s,background .15s}button:hover{background:#1d3b56;transform:translateY(-1px)}button:disabled{opacity:.45;cursor:not-allowed;transform:none}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px;align-items:center}.status{border-radius:13px;padding:14px 15px;border:1px solid var(--line);background:#0a1727;margin-top:14px}.status.good{border-color:#21896f;background:linear-gradient(110deg,#0d302f,#0a1e2b)}.status.warn{border-color:#8a6a2a;background:linear-gradient(110deg,#302719,#171c28)}.status.bad{border-color:#a6384c;background:linear-gradient(110deg,#351c2a,#171b2a)}.status h3{margin:0 0 5px;font-size:14px}.status ul{margin:6px 0 0;padding-left:20px}.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-top:12px}table{border-collapse:collapse;width:100%;font-size:13px;margin:0}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:#c0d1e2;font-weight:650;background:#14263a}tbody tr:nth-child(even){background:#0b192a}tbody tr:last-child td{border-bottom:0}.notice{font-size:12px;color:#e7d4a2;border-left:3px solid var(--yellow);padding:3px 0 3px 11px;margin-top:14px}.error{color:#ff9aaa}.ok{color:#78edc3}.footer{margin:20px 3px 0;color:var(--muted);font-size:12px;line-height:1.7}.loading{opacity:.75}.hidden{display:none!important}
-#globalStatus{margin-top:16px}#globalStatus h3{font-size:15px}.card.span12[style*="margin-bottom"]{background:linear-gradient(145deg,#132841,#0d1b2d)}#lat,#lon{width:132px}label{display:inline-flex;align-items:center;gap:7px;flex-wrap:wrap;color:#d7e5f2;font-size:13px}#refreshBtn{background:#4bd4e9;color:#062033;border-color:#4bd4e9;font-weight:800;padding:11px 16px}#refreshBtn:hover{background:#8be9f5}
-@media(max-width:800px){main{padding:15px 11px 25px}.span8,.span6,.span4{grid-column:span 12}.cards3{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:16px;border-radius:16px}.big{font-size:29px}canvas{height:215px}.top{align-items:flex-start}.actions label{width:100%;justify-content:space-between}#lat,#lon{flex:1;min-width:100px}}
-@media(max-width:420px){.cards3{gap:8px}.mini{padding:11px}.mini .value{font-size:18px}.row .pill{max-width:100%}button{padding:9px 10px}}
+:root {
+  --bg: #061126;
+  --panel: #0d1b35;
+  --panel2: #102345;
+  --line: #1e3252;
+  --text: #e7efff;
+  --muted: #8ea3c7;
+  --cyan: #38bdf8;
+  --green: #34d399;
+  --yellow: #fbbf24;
+  --red: #f87171;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+  margin: 0;
+  background: #061126;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 12px;
+  padding-bottom: 80px; /* Space for Mobile Navigation */
+}
+
+main { max-width: 800px; margin: 0 auto; }
+
+/* Header Modern Styling */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 14px 16px;
+  border-radius: 18px;
+  margin-bottom: 12px;
+}
+
+.brand { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+.sub { font-size: 11px; color: var(--muted); }
+
+.pill {
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--muted);
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  background: #09162e;
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); }
+
+/* Card System */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+h2 { font-size: 15px; font-weight: 700; margin: 0 0 4px; display: flex; align-items: center; gap: 6px; }
+.hint { font-size: 11px; color: var(--muted); }
+
+/* Metrics Horizontal Scroll on Mobile */
+.metrics-scroll {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+@media (max-width: 500px) {
+  .metrics-scroll { grid-template-columns: 1fr; }
+}
+
+.metric-card {
+  background: #08152b;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.big-val { font-size: 22px; font-weight: 800; color: var(--cyan); margin: 2px 0; }
+.mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+.mini-box { background: #0c1c38; padding: 6px 8px; border-radius: 8px; text-align: center; }
+.mini-box .lbl { font-size: 10px; color: var(--muted); }
+.mini-box .val { font-size: 12px; font-weight: 700; }
+
+/* Canvas Graphics */
+canvas {
+  display: block;
+  width: 100%;
+  height: 180px;
+  background: #08152b;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+/* Controls & Form Inputs */
+.input-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+input, select, button {
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: #0f2244;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+button { cursor: pointer; font-weight: 600; }
+button.primary { background: #0284c7; border-color: #38bdf8; color: #fff; }
+
+/* Status Cards */
+.status {
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: #09162e;
+  font-size: 12px;
+  margin-top: 10px;
+}
+.status.good { border-color: #059669; }
+.status.warn { border-color: #d97706; }
+.status.bad { border-color: #dc2626; }
+.status h3 { margin: 0 0 4px; font-size: 13px; }
+
+/* Table Wrapper */
+.tablewrap { overflow-x: auto; margin-top: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 600; background: #08152b; }
+
+/* Mobile Bottom Navigation Bar */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #0d1b35ee;
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 99;
+}
+
+.bottom-bar button {
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+}
 </style>
 </head>
 <body>
+
 <main>
-<header class="top">
- <div><div class="brand">🌊 FishRadar <span style="color:var(--cyan)">PHUKET</span></div><div class="sub">พยากรณ์ลมและคลื่นสำหรับวางแผนเดินเรือ • แสดงที่มาข้อมูลชัดเจน</div></div>
- <div class="row"><span class="pill"><span class="dot" id="liveDot"></span><span id="liveState">ยังไม่ได้โหลดข้อมูล</span></span><button id="refreshBtn">↻ โหลดข้อมูลใหม่</button></div>
-</header>
-<section class="card span12" style="margin-bottom:14px">
- <div class="row"><div><h2>📍 จุดพยากรณ์</h2><div class="hint">ค่าเริ่มต้นบริเวณเมืองภูเก็ต • เวลาแสดงผลเป็นเวลาไทย</div></div><label class="hint">หน่วยลม
- <select id="windUnit"><option value="kn">knot (kt)</option><option value="ms">เมตร/วินาที (m/s)</option><option value="kmh">กม./ชม.</option></select></label></div>
- <div class="actions"><label>ละติจูด <input id="lat" type="number" step="0.0001" value="7.8804" style="width:130px"></label><label>ลองจิจูด <input id="lon" type="number" step="0.0001" value="98.3923" style="width:130px"></label><label>จำนวนวัน <select id="days"><option value="3">3 วัน</option><option value="7" selected>7 วัน</option><option value="14">14 วัน</option></select></label><button id="applyBtn">ใช้ตำแหน่งนี้</button></div>
- <div id="globalStatus" class="status warn"><h3>⏳ รอโหลดข้อมูล</h3><div>กด “โหลดข้อมูลใหม่” เพื่อเรียกข้อมูลจาก API โดยตรง ขณะยังไม่สำเร็จจะไม่แสดงค่าตัวเลขพยากรณ์แทนข้อมูลจริง</div></div>
- <div class="hint" style="margin-top:8px">เวลาโหลดหน้า: <span id="pageTime">—</span> • ตรวจข้อมูลล่าสุดสำเร็จ: <span id="successTime">ยังไม่มี</span> • API ไม่ใช่คำเตือนเดินเรืออย่างเป็นทางการ</div>
-</section>
-<div class="grid">
- <section class="card span4"><h2>💨 ลมปัจจุบัน/ชั่วโมงใกล้สุด</h2><div class="big" id="currentWind">—</div><div class="muted" id="currentWindSub">รอข้อมูลจริง</div><div class="cards3" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="mini"><div class="label">ลมกระโชก</div><div class="value" id="gust">—</div></div><div class="mini"><div class="label">ทิศทางลม</div><div class="value" id="windDir">—</div></div></div></section>
- <section class="card span4"><h2>🌊 คลื่นทะเล</h2><div class="big" id="waveHeight">—</div><div class="muted" id="waveSub">รอข้อมูลจริง</div><div class="cards3" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="mini"><div class="label">คาบคลื่น</div><div class="value" id="wavePeriod">—</div></div><div class="mini"><div class="label">ทิศคลื่น</div><div class="value" id="waveDir">—</div></div></div></section>
- <section class="card span4"><h2>🌧️ ฝน / สภาพอากาศ</h2><div class="big" id="rain">—</div><div class="muted" id="rainSub">รอข้อมูลจริง</div><div class="cards3" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="mini"><div class="label">อุณหภูมิ</div><div class="value" id="temp">—</div></div><div class="mini"><div class="label">เมฆปกคลุม</div><div class="value" id="cloud">—</div></div></div></section>
- <section class="card span8"><div class="row"><div><h2>📈 กราฟลมและลมกระโชก</h2><div class="hint">พยากรณ์รายชั่วโมงจาก API • เวลาท้องถิ่นไทย</div></div><span class="pill" id="windRange">—</span></div><canvas id="windCanvas" aria-label="กราฟพยากรณ์ลม"></canvas><div class="hint" id="windSource">แหล่งข้อมูล: ยังไม่ได้โหลด</div></section>
- <section class="card span4"><h2>🛟 ประเมินความเสี่ยงเบื้องต้น</h2><div id="riskBox" class="status warn"><h3>ยังประเมินไม่ได้</h3><div>ต้องโหลดข้อมูลจริงให้สำเร็จก่อน</div></div><div class="notice">เกณฑ์ในหน้านี้เป็นเพียงตัวกรองคัดกรองทั่วไป ไม่ใช่คำรับรองว่าปลอดภัย และอาจไม่เหมาะกับเรือทุกชนิด</div></section>
- <section class="card span8"><div class="row"><div><h2>🌊 กราฟคลื่น</h2><div class="hint">ความสูงคลื่นนัยสำคัญ (significant wave height) ตามแบบจำลอง</div></div><span class="pill" id="waveRange">—</span></div><canvas id="waveCanvas" aria-label="กราฟพยากรณ์คลื่น"></canvas><div class="hint" id="waveSource">แหล่งข้อมูล: ยังไม่ได้โหลด</div></section>
- <section class="card span4"><h2>🌙 น้ำขึ้นน้ำลง</h2><div class="hint">ข้อมูลน้ำขึ้นลงต้องมาจากแหล่ง tide ที่มีพิกัด/สถานีรองรับ</div><div id="tideStatus" class="status warn"><h3>ยังไม่มีข้อมูลน้ำขึ้นน้ำลง</h3><div>ระบบจะไม่สร้างกราฟหรือเวลา high/low tide ขึ้นเอง หากไม่มี API ที่เชื่อถือได้</div></div><div class="tablewrap"><table><thead><tr><th>เวลา (ไทย)</th><th>เหตุการณ์</th><th>ระดับ</th></tr></thead><tbody id="tideRows"><tr><td colspan="3" class="muted">ไม่มีข้อมูล</td></tr></tbody></table></div></section>
- <section class="card span12"><div class="row"><div><h2>🗓️ พยากรณ์รายชั่วโมง / รายวัน</h2><div class="hint">เวลาที่ API ระบุ • ไม่ใช่ข้อมูลสังเกตการณ์จริง</div></div><span class="pill" id="forecastStamp">ยังไม่มีข้อมูล</span></div><div class="tablewrap"><table><thead><tr><th>เวลา (ไทย)</th><th>ลม</th><th>กระโชก</th><th>ทิศลม</th><th>คลื่น</th><th>คาบคลื่น</th><th>ฝน</th><th>อุณหภูมิ</th></tr></thead><tbody id="forecastRows"><tr><td colspan="8" class="muted">กดโหลดข้อมูลเพื่อเริ่มต้น</td></tr></tbody></table></div><div class="actions"><button id="csvBtn" disabled>ส่งออก CSV</button></div></section>
-</div>
-<footer class="footer">แหล่ง API หลัก: Open-Meteo Forecast API (พยากรณ์อากาศ) และ Marine API (คลื่น หากพื้นที่รองรับ) • ข้อมูล API อาจคลาดเคลื่อนและไม่แทนประกาศเตือนภัยจากกรมอุตุนิยมวิทยา/หน่วยงานทางทะเล • หากข้อมูลทะเลขาดหาย ระบบจะแสดง “ไม่มีข้อมูล” ไม่อนุมานแทน</footer>
+  <!-- Top Bar -->
+  <header class="top">
+    <div>
+      <div class="brand">🌊 FishRadar <span style="color:var(--cyan)">PHUKET</span></div>
+      <div class="sub">แดชบอร์ดสภาพอากาศและทะเลรายชั่วโมง</div>
+    </div>
+    <span class="pill"><span class="dot" id="liveDot"></span><span id="liveState">พร้อมใช้งาน</span></span>
+  </header>
+
+  <!-- Location Config -->
+  <section class="card">
+    <h2>📍 ตั้งค่าพิกัดพยากรณ์</h2>
+    <div class="input-group">
+      <label class="hint">ละติจูด <input id="lat" type="number" step="0.0001" value="7.8804" style="width:90px"></label>
+      <label class="hint">ลองจิจูด <input id="lon" type="number" step="0.0001" value="98.3923" style="width:90px"></label>
+      <label class="hint">จำนวนวัน 
+        <select id="days">
+          <option value="3">3 วัน</option>
+          <option value="7" selected>7 วัน</option>
+        </select>
+      </label>
+      <button id="applyBtn" class="primary">อัปเดต</button>
+    </div>
+    <div id="globalStatus" class="status warn">
+      <h3>⏳ กดโหลดข้อมูลเพื่อเริ่มต้น</h3>
+      <div>ระบบจะดึงข้อมูลอากาศและคลื่นจาก Open-Meteo API โดยตรง</div>
+    </div>
+  </section>
+
+  <!-- Metrics Overview Cards -->
+  <div class="metrics-scroll">
+    <!-- Wind Card -->
+    <div class="metric-card">
+      <h2>💨 ลมปัจจุบัน</h2>
+      <div class="big-val" id="currentWind">—</div>
+      <div class="hint" id="currentWindSub">รอโหลดข้อมูล</div>
+      <div class="mini-grid">
+        <div class="mini-box"><div class="lbl">กระโชก</div><div class="val" id="gust">—</div></div>
+        <div class="mini-box"><div class="lbl">ทิศทาง</div><div class="val" id="windDir">—</div></div>
+      </div>
+    </div>
+
+    <!-- Wave Card -->
+    <div class="metric-card">
+      <h2>🌊 คลื่นทะเล</h2>
+      <div class="big-val" id="waveHeight" style="color:var(--green)">—</div>
+      <div class="hint" id="waveSub">รอโหลดข้อมูล</div>
+      <div class="mini-grid">
+        <div class="mini-box"><div class="lbl">คาบคลื่น</div><div class="val" id="wavePeriod">—</div></div>
+        <div class="mini-box"><div class="lbl">ทิศทาง</div><div class="val" id="waveDir">—</div></div>
+      </div>
+    </div>
+
+    <!-- Weather Card -->
+    <div class="metric-card">
+      <h2>🌧️ ฝน / อากาศ</h2>
+      <div class="big-val" id="rain" style="color:var(--yellow)">—</div>
+      <div class="hint" id="rainSub">รอโหลดข้อมูล</div>
+      <div class="mini-grid">
+        <div class="mini-box"><div class="lbl">อุณหภูมิ</div><div class="val" id="temp">—</div></div>
+        <div class="mini-box"><div class="lbl">เมฆปกคลุม</div><div class="val" id="cloud">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wind Chart -->
+  <section class="card" style="margin-top:12px;">
+    <h2>📈 กราฟความเร็วลมและลมกระโชก</h2>
+    <canvas id="windCanvas"></canvas>
+  </section>
+
+  <!-- Risk Assessment -->
+  <section class="card">
+    <h2>🛟 การประเมินความเสี่ยงเบื้องต้น</h2>
+    <div id="riskBox" class="status warn">
+      <h3>รอข้อมูลพยากรณ์</h3>
+      <div>โหลดข้อมูลเพื่อประเมินความเสี่ยงคลื่นลมสำหรับเรือเล็ก</div>
+    </div>
+  </section>
+
+  <!-- Hourly Forecast Table -->
+  <section class="card">
+    <h2>🗓️ ตารางพยากรณ์รายชั่วโมง</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>เวลา</th>
+            <th>ลม</th>
+            <th>กระโชก</th>
+            <th>คลื่น</th>
+            <th>ฝน</th>
+            <th>อุณหภูมิ</th>
+          </tr>
+        </thead>
+        <tbody id="forecastRows">
+          <tr><td colspan="6" style="text-align:center; color:var(--muted)">กดโหลดข้อมูลเพื่อแสดงข้อมูล</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </main>
+
+<!-- Mobile Bottom Floating Action Bar -->
+<div class="bottom-bar">
+  <select id="windUnit" style="padding:6px 10px;">
+    <option value="kn">Knot (kt)</option>
+    <option value="ms">m/s</option>
+    <option value="kmh">km/h</option>
+  </select>
+  <button id="refreshBtn" class="primary">↻ โหลดข้อมูลใหม่</button>
+  <button id="csvBtn" disabled>CSV</button>
+</div>
+
 <script>
 'use strict';
 const $ = id => document.getElementById(id);
 const THAI_TZ = 'Asia/Bangkok';
-let state = {weather:null, marine:null, fetchedAt:null, hourly:[], daily:[], tide:[], lastError:null};
-$('pageTime').textContent = new Date().toLocaleString('th-TH',{timeZone:THAI_TZ});
+let state = {weather:null, marine:null, hourly:[]};
+
 function fmtTime(s){if(!s)return '—'; const d=new Date(s); return isNaN(d)?String(s):d.toLocaleString('th-TH',{timeZone:THAI_TZ,day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false});}
-function fmtHour(s){if(!s)return '—';const d=new Date(s);return isNaN(d)?String(s):d.toLocaleString('th-TH',{timeZone:THAI_TZ,day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false});}
 function num(v,d=1){return Number.isFinite(v)?v.toFixed(d):'—';}
-function dir(deg){if(!Number.isFinite(deg))return '—';return ['N','NE','E','SE','S','SW','W','NW'][Math.round(deg/45)%8]+' ('+Math.round(deg)+'°)';}
+function dir(deg){if(!Number.isFinite(deg))return '—';return ['N','NE','E','SE','S','SW','W','NW'][Math.round(deg/45)%8];}
 function windConvert(ms){if(!Number.isFinite(ms))return null;const u=$('windUnit').value;return u==='kn'?ms*1.943844:u==='kmh'?ms*3.6:ms;}
 function windText(ms){const v=windConvert(ms);if(v===null)return '—';return num(v,1)+' '+({'kn':'kt','ms':'m/s','kmh':'km/h'}[$('windUnit').value]);}
-function showStatus(kind,title,body){const e=$('globalStatus');e.className='status '+kind;e.innerHTML='<h3>'+title+'</h3><div>'+body+'</div>';}
-function apiTimeToDate(time){ // API returns local time string with timezone set in request
- return new Date(time);
-}
+
 function idxClosest(times){const now=Date.now();let best=-1,delta=Infinity;times.forEach((t,i)=>{const d=Math.abs(new Date(t).getTime()-now);if(Number.isFinite(d)&&d<delta){delta=d;best=i;}});return best;}
-async function fetchJson(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status+' จาก '+new URL(url).hostname);return await r.json();}
-function safe(v){return Number.isFinite(v)?v:null;}
-function drawChart(canvasId, series, unit, colors){
- const canvas=$(canvasId), rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
- const w=Math.max(320,rect.width),h=Math.max(180,rect.height);
- canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
- const c=canvas.getContext('2d');c.scale(dpr,dpr);c.clearRect(0,0,w,h);
- c.fillStyle='#08152b';c.fillRect(0,0,w,h);
- const valid=series.flatMap(s=>s.values.filter(Number.isFinite));
- if(!valid.length){c.fillStyle='#9db0d0';c.font='14px sans-serif';c.textAlign='center';c.fillText('ไม่มีข้อมูลจาก API สำหรับกราฟนี้',w/2,h/2);return;}
- let max=Math.max(...valid)*1.15;if(max<=0)max=1;const min=0, left=44,right=12,top=18,bottom=34,gw=w-left-right,gh=h-top-bottom;
- c.font='11px sans-serif';c.lineWidth=1;c.strokeStyle='#233858';c.fillStyle='#9db0d0';c.textAlign='right';
- for(let i=0;i<=4;i++){const y=top+gh*i/4,val=max*(1-i/4);c.beginPath();c.moveTo(left,y);c.lineTo(w-right,y);c.stroke();c.fillText(val.toFixed(1),left-7,y+4);}
- const count=Math.max(...series.map(s=>s.values.length));const x=i=>left+(count<=1?0:i/(count-1))*gw,y=v=>top+gh-(v-min)/(max-min)*gh;
- series.forEach((s,j)=>{c.beginPath();c.strokeStyle=colors[j];c.lineWidth=2.4;let started=false;s.values.forEach((v,i)=>{if(!Number.isFinite(v)){started=false;return;}if(!started){c.moveTo(x(i),y(v));started=true;}else c.lineTo(x(i),y(v));});c.stroke();});
- c.textAlign='left';let lx=left;series.forEach((s,j)=>{c.fillStyle=colors[j];c.fillRect(lx, h-19, 10, 3);c.fillStyle='#c7d5ed';c.fillText(s.name,lx+14,h-15);lx+=Math.max(75,s.name.length*7+25);});
- c.textAlign='center';c.fillStyle='#9db0d0';if(state.hourly.length){[0,Math.floor((count-1)/2),count-1].forEach(i=>{const t=state.hourly[i]?.time;if(t)c.fillText(new Date(t).toLocaleTimeString('th-TH',{timeZone:THAI_TZ,hour:'2-digit',minute:'2-digit',hour12:false}),x(i),h-3);});}
+async function fetchJson(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json();}
+
+function drawChart(canvasId, series, colors){
+  const canvas=$(canvasId), rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+  const w=Math.max(300,rect.width), h=180;
+  canvas.width=Math.round(w*dpr); canvas.height=Math.round(h*dpr);
+  const c=canvas.getContext('2d'); c.scale(dpr,dpr); c.clearRect(0,0,w,h);
+  
+  const valid=series.flatMap(s=>s.values.filter(Number.isFinite));
+  if(!valid.length){
+    c.fillStyle='#8ea3c7'; c.font='12px sans-serif'; c.textAlign='center';
+    c.fillText('ไม่มีข้อมูลสำหรับแสดงกราฟ',w/2,h/2); return;
+  }
+  let max=Math.max(...valid)*1.15; if(max<=0)max=1; const left=35, right=10, top=15, bottom=25, gw=w-left-right, gh=h-top-bottom;
+  
+  c.font='10px sans-serif'; c.strokeStyle='#1e3252'; c.fillStyle='#8ea3c7'; c.textAlign='right';
+  for(let i=0;i<=3;i++){const y=top+gh*i/3, val=max*(1-i/3); c.beginPath(); c.moveTo(left,y); c.lineTo(w-right,y); c.stroke(); c.fillText(val.toFixed(1),left-5,y+3);}
+  
+  const count=Math.max(...series.map(s=>s.values.length)); const x=i=>left+(count<=1?0:i/(count-1))*gw, y=v=>top+gh-(v)/(max)*gh;
+  series.forEach((s,j)=>{
+    c.beginPath(); c.strokeStyle=colors[j]; c.lineWidth=2; let started=false;
+    s.values.forEach((v,i)=>{if(!Number.isFinite(v))return; if(!started){c.moveTo(x(i),y(v));started=true;}else c.lineTo(x(i),y(v));});
+    c.stroke();
+  });
 }
-function renderRisk(w,m,hi){
- const box=$('riskBox');let issues=[],unknown=[];
- const i=idxClosest(hi.time||[]);
- if(i<0){box.className='status warn';box.innerHTML='<h3>ยังประเมินไม่ได้</h3><div>ไม่พบข้อมูลลมใกล้เวลาปัจจุบัน</div>';return;}
- const wind=hi.wind_speed_10m?.[i],gust=hi.wind_gusts_10m?.[i],wave=m?.hourly?.wave_height?.[idxClosest(m.hourly.time||[])];
- if(Number.isFinite(wind)){if(wind>=10)issues.push('ลมเฉลี่ย ≥ 10 m/s — เสี่ยงสูงสำหรับเรือเล็ก');else if(wind>=7)issues.push('ลมเฉลี่ย 7–10 m/s — ต้องระวังเป็นพิเศษ');}else unknown.push('ไม่มีข้อมูลความเร็วลม');
- if(Number.isFinite(gust)){if(gust>=15)issues.push('ลมกระโชก ≥ 15 m/s — อันตรายได้');else if(gust>=10)issues.push('ลมกระโชก 10–15 m/s — ระวัง');}else unknown.push('ไม่มีข้อมูลลมกระโชก');
- if(Number.isFinite(wave)){if(wave>=2.5)issues.push('คลื่น ≥ 2.5 m — ความเสี่ยงสูง');else if(wave>=1.5)issues.push('คลื่น 1.5–2.5 m — ระวัง');}else unknown.push('ไม่มีข้อมูลคลื่นทะเล');
- if(issues.length){box.className='status bad';box.innerHTML='<h3>⚠️ พบปัจจัยเสี่ยง</h3><ul>'+issues.map(x=>'<li>'+x+'</li>').join('')+'</ul>'+(unknown.length?'<p class="muted">ยังไม่ทราบ: '+unknown.join(' • ')+'</p>':'')+'<p>อย่าใช้ผลนี้เป็นคำอนุญาตให้ออกเรือ ตรวจประกาศเตือนและประเมินตามชนิดเรือ/เส้นทางก่อนเสมอ</p>';}
- else if(unknown.length){box.className='status warn';box.innerHTML='<h3>ข้อมูลไม่ครบ — สรุปความเสี่ยงไม่ได้</h3><p>'+unknown.join(' • ')+'</p><p>ห้ามตีความว่าไม่มีความเสี่ยง</p>';}
- else{box.className='status good';box.innerHTML='<h3>ไม่พบเกณฑ์เตือนเบื้องต้นที่ตั้งไว้</h3><p>นี่ไม่ใช่การยืนยันว่าปลอดภัย ตรวจคำเตือนทางการ สภาพจริง และข้อจำกัดเรือก่อนออกเดินทาง</p>';}
-}
+
 function render(){
- const w=state.weather,m=state.marine;if(!w?.hourly){return;}
- const h=w.hourly, n=idxClosest(h.time); if(n<0)return;
- state.hourly=h.time.map((time,i)=>({time,wind:h.wind_speed_10m?.[i],gust:h.wind_gusts_10m?.[i],windDir:h.wind_direction_10m?.[i],rain:h.precipitation?.[i],temp:h.temperature_2m?.[i],cloud:h.cloud_cover?.[i],wave:m?.hourly?.wave_height?.[i],period:m?.hourly?.wave_period?.[i],waveDir:m?.hourly?.wave_direction?.[i]}));
- $('currentWind').textContent=windText(h.wind_speed_10m?.[n]);$('currentWindSub').textContent='เวลา '+fmtTime(h.time[n])+' • ค่าพยากรณ์รายชั่วโมง';
- $('gust').textContent=windText(h.wind_gusts_10m?.[n]);$('windDir').textContent=dir(h.wind_direction_10m?.[n]);
- const wh=m?.hourly?.wave_height?.[n],wp=m?.hourly?.wave_period?.[n],wd=m?.hourly?.wave_direction?.[n];
- $('waveHeight').textContent=Number.isFinite(wh)?num(wh,2)+' m':'ไม่มีข้อมูล';$('waveSub').textContent=Number.isFinite(wh)?'พยากรณ์คลื่นนัยสำคัญ':'Marine API ไม่คืนข้อมูลคลื่นสำหรับตำแหน่ง/ช่วงนี้';
- $('wavePeriod').textContent=Number.isFinite(wp)?num(wp,1)+' s':'—';$('waveDir').textContent=dir(wd);
- const rr=h.precipitation?.[n];$('rain').textContent=Number.isFinite(rr)?num(rr,1)+' mm':'—';$('rainSub').textContent='ปริมาณฝนสะสมในช่วงรายชั่วโมง';$('temp').textContent=Number.isFinite(h.temperature_2m?.[n])?num(h.temperature_2m[n],1)+' °C':'—';$('cloud').textContent=Number.isFinite(h.cloud_cover?.[n])?Math.round(h.cloud_cover[n])+'%':'—';
- const hours=state.hourly.slice(0,Math.min(72,state.hourly.length));
- const windVals=hours.map(x=>{const v=windConvert(x.wind);return v===null?null:v;});const gustVals=hours.map(x=>{const v=windConvert(x.gust);return v===null?null:v;});
- drawChart('windCanvas',[{name:'ลม',values:windVals},{name:'กระโชก',values:gustVals}],'',[ '#45c9f5','#ff647c']);
- const waveVals=hours.map(x=>x.wave);drawChart('waveCanvas',[{name:'คลื่น (m)',values:waveVals}],'',['#36d399']);
- $('windRange').textContent=hours.length?fmtTime(hours[0].time)+' – '+fmtTime(hours[hours.length-1].time):'ไม่มีข้อมูล';
- $('waveRange').textContent=hours.some(x=>Number.isFinite(x.wave))?'มีข้อมูลคลื่น':'ไม่มีข้อมูลคลื่น';
- $('windSource').textContent='แหล่งข้อมูล: Open-Meteo Forecast API • ลม 10 m • เวลาอ้างอิง '+(w.timezone||THAI_TZ);
- $('waveSource').textContent=m?'แหล่งข้อมูล: Open-Meteo Marine API • ค่าเป็นแบบจำลอง ไม่ใช่ทุ่นวัด':'แหล่งข้อมูล: Marine API ไม่พร้อมใช้งาน/ไม่คืนข้อมูล';
- $('forecastStamp').textContent='พยากรณ์ '+(w.hourly.time.length)+' ช่วงเวลา';
- $('forecastRows').innerHTML=state.hourly.slice(0,Math.min(48,state.hourly.length)).map(x=>'<tr><td>'+fmtTime(x.time)+'</td><td>'+windText(x.wind)+'</td><td>'+windText(x.gust)+'</td><td>'+dir(x.windDir)+'</td><td>'+(Number.isFinite(x.wave)?num(x.wave,2)+' m':'ไม่มีข้อมูล')+'</td><td>'+(Number.isFinite(x.period)?num(x.period,1)+' s':'—')+'</td><td>'+(Number.isFinite(x.rain)?num(x.rain,1)+' mm':'—')+'</td><td>'+(Number.isFinite(x.temp)?num(x.temp,1)+' °C':'—')+'</td></tr>').join('');
- $('csvBtn').disabled=!state.hourly.length;
- renderRisk(w,m,h);
+  const w=state.weather, m=state.marine; if(!w?.hourly)return;
+  const h=w.hourly, n=idxClosest(h.time); if(n<0)return;
+  
+  state.hourly=h.time.map((time,i)=>({time,wind:h.wind_speed_10m?.[i],gust:h.wind_gusts_10m?.[i],windDir:h.wind_direction_10m?.[i],rain:h.precipitation?.[i],temp:h.temperature_2m?.[i],cloud:h.cloud_cover?.[i],wave:m?.hourly?.wave_height?.[i],period:m?.hourly?.wave_period?.[i],waveDir:m?.hourly?.wave_direction?.[i]}));
+  
+  $('currentWind').textContent=windText(h.wind_speed_10m?.[n]);$('currentWindSub').textContent=fmtTime(h.time[n]);
+  $('gust').textContent=windText(h.wind_gusts_10m?.[n]);$('windDir').textContent=dir(h.wind_direction_10m?.[n]);
+  
+  const wh=m?.hourly?.wave_height?.[n], wp=m?.hourly?.wave_period?.[n], wd=m?.hourly?.wave_direction?.[n];
+  $('waveHeight').textContent=Number.isFinite(wh)?num(wh,2)+' m':'—';$('waveSub').textContent=Number.isFinite(wh)?'ความสูงคลื่นนัยสำคัญ':'ไม่มีข้อมูล';
+  $('wavePeriod').textContent=Number.isFinite(wp)?num(wp,1)+'s':'—'; $('waveDir').textContent=dir(wd);$('rain').textContent=Number.isFinite(h.precipitation?.[n])?num(h.precipitation[n],1)+' mm':'0 mm';
+  $('temp').textContent=Number.isFinite(h.temperature_2m?.[n])?num(h.temperature_2m[n],1)+'°C':'—';$('cloud').textContent=Number.isFinite(h.cloud_cover?.[n])?Math.round(h.cloud_cover[n])+'%':'—';
+  
+  const hours=state.hourly.slice(0, Math.min(48, state.hourly.length));
+  drawChart('windCanvas', [{name:'ลม', values:hours.map(x=>windConvert(x.wind))}, {name:'กระโชก', values:hours.map(x=>windConvert(x.gust))}], ['#38bdf8', '#f87171']);
+  
+  $('forecastRows').innerHTML=state.hourly.slice(0,36).map(x=>`<tr><td>${fmtTime(x.time)}</td><td>${windText(x.wind)}</td><td>${windText(x.gust)}</td><td>${Number.isFinite(x.wave)?num(x.wave,2)+'m':'—'}</td><td>${Number.isFinite(x.rain)?num(x.rain,1):'0'}</td><td>${num(x.temp,0)}°C</td></tr>`).join('');
+  $('csvBtn').disabled=false;
+  
+  // Risk assessment logic
+  const box=$('riskBox'), wind=h.wind_speed_10m?.[n], wave=wh;
+  if(wind >= 10 || wave >= 2.0) {
+    box.className = 'status bad'; box.innerHTML = '<h3>⚠️ เสี่ยงสูง (ทะเลมีคลื่นลมแรง)</h3><div>ไม่เหมาะสำหรับเรือเล็ก ควรงดออกจากฝั่ง</div>';
+  } else if(wind >= 7 || wave >= 1.2) {
+    box.className = 'status warn'; box.innerHTML = '<h3>⚠️ ควรระมัดระวังในการเดินเรือ</h3><div>มีลมพัดปานกลาง และคลื่นสูงเล็กน้อย</div>';
+  } else {
+    box.className = 'status good'; box.innerHTML = '<h3>✅ สภาพอากาศปกติ</h3><div>ไม่พบเกณฑ์ความเสี่ยงรุนแรง ตรวจสอบประกาศทางการอีกครั้ง</div>';
+  }
 }
+
 async function load(){
- const lat=Number($('lat').value),lon=Number($('lon').value),days=Number($('days').value);
- if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat < -90||lat>90||lon < -180||lon>180){showStatus('bad','พิกัดไม่ถูกต้อง','กรุณาตรวจสอบละติจูดและลองจิจูด');return;}
- $('refreshBtn').disabled=true;$('refreshBtn').textContent='กำลังโหลด…';$('liveState').textContent='กำลังเรียก API';$('liveDot').style.background='#ffd166';
- showStatus('warn','กำลังดึงข้อมูล','กำลังเรียก API โดยตรง ข้อมูลจะถูกแทนที่เมื่อโหลดสำเร็จ');
- state.weather=null;state.marine=null;state.hourly=[];$('csvBtn').disabled=true;
- try{
-  const common='latitude='+encodeURIComponent(lat)+'&longitude='+encodeURIComponent(lon)+'&timezone='+encodeURIComponent(THAI_TZ)+'&forecast_days='+days;
-  const weatherUrl='https://api.open-meteo.com/v1/forecast?'+common+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=temperature_2m,precipitation,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max&wind_speed_unit=ms';
-  const marineUrl='https://marine-api.open-meteo.com/v1/marine?'+common+'&hourly=wave_height,wave_direction,wave_period';
-  const weather=await fetchJson(weatherUrl);
-  let marine=null, marineError=null;try{marine=await fetchJson(marineUrl);}catch(e){marineError=e;}
-  if(!weather.hourly||!Array.isArray(weather.hourly.time))throw new Error('API อากาศตอบกลับไม่ครบ');
-  state.weather=weather;state.marine=marine;state.fetchedAt=new Date();state.lastError=null;
-  // Never label fetch time as model issue time: both are displayed separately.
-  $('successTime').textContent=state.fetchedAt.toLocaleString('th-TH',{timeZone:THAI_TZ,hour12:false});
-  $('liveState').textContent='โหลด API สำเร็จ';$('liveDot').style.background='#36d399';
-  const modelTime=weather.current?.time||weather.hourly.time[0]||'ไม่ระบุ';
-  showStatus(marineError?'warn':'good',marineError?'โหลดอากาศสำเร็จ แต่ข้อมูลคลื่นใช้ไม่ได้':'โหลดข้อมูลจาก API สำเร็จ','เวลาข้อมูลพยากรณ์ที่ API ระบุ: '+fmtTime(modelTime)+'. เวลาดึงข้อมูลจาก API สำเร็จ: '+$('successTime').textContent+'.'+(marineError?' สาเหตุคลื่น: '+marineError.message:'')+' ไม่มีการสร้างค่าทดแทนสำหรับข้อมูลที่หาย');
-  $('tideStatus').className='status warn';$('tideStatus').innerHTML='<h3>ไม่มีข้อมูลน้ำขึ้นน้ำลงจาก API ที่ใช้อยู่</h3><div>Open-Meteo Weather/Marine API ที่เรียกในหน้านี้ไม่ได้ให้ระดับน้ำทะเลหรือเวลา high/low tide แบบสถานีท้องถิ่น จึงไม่แสดงค่าคาดเดา</div>';
-  $('tideRows').innerHTML='<tr><td colspan="3" class="muted">ไม่มีข้อมูลจากแหล่ง tide ที่รองรับ</td></tr>';
-  render();
- }catch(e){
-  state.weather=null;state.marine=null;state.hourly=[];$('liveState').textContent='โหลดไม่สำเร็จ';$('liveDot').style.background='#ff647c';
-  $('currentWind').textContent='—';$('gust').textContent='—';$('windDir').textContent='—';$('waveHeight').textContent='—';$('wavePeriod').textContent='—';$('waveDir').textContent='—';$('rain').textContent='—';$('temp').textContent='—';$('cloud').textContent='—';
-  drawChart('windCanvas',[],'',[]);drawChart('waveCanvas',[],'',[]);
-  $('forecastRows').innerHTML='<tr><td colspan="8" class="error">โหลดไม่สำเร็จ — ไม่มีการแสดงข้อมูลเก่าเป็นข้อมูลปัจจุบัน</td></tr>';
-  $('riskBox').className='status warn';$('riskBox').innerHTML='<h3>ประเมินความเสี่ยงไม่ได้</h3><div>ไม่มีข้อมูลพยากรณ์ที่โหลดสำเร็จ ห้ามตีความว่าปลอดภัย</div>';
-  showStatus('bad','โหลด API ไม่สำเร็จ',String(e.message||e)+' • ตรวจอินเทอร์เน็ต ลองใหม่ หรือเปิดผ่านเว็บเซิร์ฟเวอร์ (ไม่ใช่ file://) หากเบราว์เซอร์บล็อกคำขอ');
- }finally{$('refreshBtn').disabled=false;$('refreshBtn').textContent='↻ โหลดข้อมูลใหม่';}
+  const lat=Number($('lat').value), lon=Number($('lon').value), days=Number($('days').value);$('refreshBtn').textContent='⏳ โหลด…'; $('liveState').textContent='กำลังโหลด'; $('liveDot').style.background='#fbbf24';
+  
+  try {
+    const common=`latitude=${lat}&longitude=${lon}&timezone=${encodeURIComponent(THAI_TZ)}&forecast_days=${days}`;
+    const wUrl=`https://api.open-meteo.com/v1/forecast?${common}&current=temperature_2m,precipitation,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=temperature_2m,precipitation,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=ms`;
+    const mUrl=`https://marine-api.open-meteo.com/v1/marine?${common}&hourly=wave_height,wave_direction,wave_period`;
+    
+    state.weather = await fetchJson(wUrl);
+    try { state.marine = await fetchJson(mUrl); } catch(e){}
+    
+    $('liveState').textContent='อัปเดตแล้ว'; $('liveDot').style.background='#34d399';
+    $('globalStatus').className='status good';$('globalStatus').innerHTML='<h3>✅ โหลดข้อมูลสำเร็จ</h3><div>แสดงพยากรณ์รายชั่วโมงล่าสุดจาก Open-Meteo</div>';
+    render();
+  } catch(e) {
+    $('liveState').textContent='เกิดข้อผิดพลาด'; $('liveDot').style.background='#f87171';
+    $('globalStatus').className='status bad';$('globalStatus').innerHTML='<h3>❌ โหลดข้อมูลไม่สำเร็จ</h3><div>กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</div>';
+  } finally {
+    $('refreshBtn').textContent='↻ โหลดข้อมูลใหม่';
+  }
 }
-$('refreshBtn').addEventListener('click',load);$('applyBtn').addEventListener('click',load);$('days').addEventListener('change',load);$('windUnit').addEventListener('change',()=>{if(state.weather)render();});
-$('csvBtn').addEventListener('click',()=>{
- if(!state.hourly.length)return;
- const rows=[['time_th','wind','gust','wind_direction_deg','wave_height_m','wave_period_s','rain_mm','temperature_c'],...state.hourly.map(x=>[fmtTime(x.time),Number.isFinite(x.wind)?x.wind:'',Number.isFinite(x.gust)?x.gust:'',Number.isFinite(x.windDir)?x.windDir:'',Number.isFinite(x.wave)?x.wave:'',Number.isFinite(x.period)?x.period:'',Number.isFinite(x.rain)?x.rain:'',Number.isFinite(x.temp)?x.temp:''])];
- const csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');
- const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='FishRadar_PHUKET_forecast.csv';a.click();URL.revokeObjectURL(a.href);
-});
-let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(state.weather)render();},150);});
-// Do not silently refresh in the background; the user can see exactly when a new request occurs.
-drawChart('windCanvas',[],'',[]);drawChart('waveCanvas',[],'',[]);
+
+$('refreshBtn').addEventListener('click', load);
+$('applyBtn').addEventListener('click', load);$('windUnit').addEventListener('change', ()=>{ if(state.weather) render(); });
+drawChart('windCanvas', [], []);
 </script>
+
 </body>
 </html>
